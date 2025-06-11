@@ -1,0 +1,24 @@
+# .gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+
+# VS Code
+.vscode/
+
+# Data / Logs / Outputs
+*.log
+*.csv
+*.json
+*.h5
+*.pth
+*.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
