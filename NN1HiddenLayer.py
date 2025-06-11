@@ -6,6 +6,7 @@
 # directive: demonstrate the basic syntax of a PyTorch neural network with one hidden layer
 import torch
 import torch.nn as nn
+import torch.utils.data.dataloader
 import torchvision.transforms as transformes
 import torchvision.datasets as dsets
 import torch.nn.functional as F
@@ -55,3 +56,39 @@ class Net(nn.Module):
     def forward(self, x):
         x = torch.sigmoid(self.linear1(x))
         x = self.linear2(x)
+
+    # Model training function
+    def train(model, criterion, train_loader, validation_loader, optimizer, epochs=100):
+        i = 0
+        useful_stuff = {'training_loss': [],'validation_accuracy': []}  
+        for epoch in range(epochs):
+            for i, (x, y) in enumerate(train_loader): 
+                optimizer.zero_grad()
+                z = model(x.view(-1, 28 * 28))
+                loss = criterion(z, y)
+                loss.backward()
+                optimizer.step()
+                # loss for every iteration
+                useful_stuff['training_loss'].append(loss.data.item())
+            correct = 0
+            for x, y in validation_loader:
+                # validation 
+                z = model(x.view(-1, 28 * 28))
+                _, label = torch.max(z, 1)
+                correct += (label == y).sum().item()
+            accuracy = 100 * (correct / len(validation_dataset))
+            useful_stuff['validation_accuracy'].append(accuracy)
+        return useful_stuff
+    
+    # create training dataset from MNIST
+    train_dataset = dsets.MNIST(root='./data', train=True, download=True, transform=transforms.ToTensor())
+    
+    # create validating dataset
+    validation_dataset = dsets.MNIST(root='./data', downnload=True, transform=transforms.ToTensor())
+
+    # create criterion function
+    criterion = nn.CrossEntropyLoss()
+
+    # create Data Loader for both train dataset and validate dataset
+    train_loader = torch.utils.data.dataloader(dataset=train_dataset, batch_size = 2000, shuffle = True)
+    validation_loader = torch.utils.data.dataloader(dataset=validation_dataset, batch_size = 5000, shuffle = False)
