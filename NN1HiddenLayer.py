@@ -7,7 +7,7 @@
 import torch
 import torch.nn as nn
 import torch.utils.data.dataloader
-import torchvision.transforms as transformes
+import torchvision.transforms as transforms
 import torchvision.datasets as dsets
 import torch.nn.functional as F
 import matplotlib.pylab as plt
@@ -26,7 +26,7 @@ def plot_accuracy_loss(training_results):
     plt.show()
 
 # define a function to plot the model parameters
-def print_model_paramemters(model):
+def print_model_parameters(model):
     count = 0
     for ele in model.state_dict():
         count += 1
@@ -39,7 +39,7 @@ def print_model_paramemters(model):
 
 # function to display data
 def show_data(data_sample):
-    plt.imshow((data_sample.numpy().reshape(28, 28), cmap='gray'))
+    plt.imshow(data_sample.numpy().reshape(28, 28), cmap='gray')
     plt.show()        
 
 
@@ -79,16 +79,53 @@ class Net(nn.Module):
             accuracy = 100 * (correct / len(validation_dataset))
             useful_stuff['validation_accuracy'].append(accuracy)
         return useful_stuff
-    
-    # create training dataset from MNIST
-    train_dataset = dsets.MNIST(root='./data', train=True, download=True, transform=transforms.ToTensor())
-    
-    # create validating dataset
-    validation_dataset = dsets.MNIST(root='./data', downnload=True, transform=transforms.ToTensor())
 
-    # create criterion function
-    criterion = nn.CrossEntropyLoss()
+# create training dataset from MNIST
+train_dataset = dsets.MNIST(root='./data', train=True, download=True, transform=transforms.ToTensor())
 
-    # create Data Loader for both train dataset and validate dataset
-    train_loader = torch.utils.data.dataloader(dataset=train_dataset, batch_size = 2000, shuffle = True)
-    validation_loader = torch.utils.data.dataloader(dataset=validation_dataset, batch_size = 5000, shuffle = False)
+# create validating dataset
+validation_dataset = dsets.MNIST(root='./data', downnload=True, transform=transforms.ToTensor())
+
+# create criterion function
+criterion = nn.CrossEntropyLoss()
+
+# create Data Loader for both train dataset and validate dataset
+train_loader = torch.utils.data.dataloader(dataset=train_dataset, batch_size = 2000, shuffle = True)
+validation_loader = torch.utils.data.dataloader(dataset=validation_dataset, batch_size = 5000, shuffle = False)
+
+
+# create the model with 100 neurons
+input_dim = 28 * 28
+hidden_dim = 100
+output_dim = 10
+
+model = Net(input_dim, hidden_dim, output_dim)
+
+# print model parameters
+print_model_parameters(model)
+
+
+# set the learning rate annd optimizer
+learning_rate = 0.01
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+
+
+# EPOCHS
+# train the model using epochs
+training_results = train(model, criterion, train_loader, validation_loader, optimizer, epochs = 30)
+
+
+# Analysis
+# plot accuracy and loss
+plot_accuracy_loss(training_results) 
+
+# plot first five misclassified samples
+count = 0
+for x, y in validation_dataset:
+    z = model(x.reshape(-1, 28 * 28))
+    _,yhat = torch.max(z, 1)
+    if yhat != y:
+        show_data(x)
+        count += 1
+    if count >= 5:
+        break
