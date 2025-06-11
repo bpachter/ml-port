@@ -1,0 +1,2672 @@
+Here we go. Not sure why exactly I am putting myself through this other than the fact that this stuff is pretty cool.
+
+5/9/2025
+
+---------------
+
+Course 1 - Machine Learning With Python
+
+
+LIBRARIES
+
+Scikit-learn Ecosystem:
+
+    Numpy: Numerical computations on data arrays
+    Pandas: Data analysis, visualization, cleaning, and preparation
+    SciPy: Computing for optimization, integration, and linear regression
+    Scikit-learn: Suite of classification, regression, clustering, and dimensionality reduction algorithms
+        Built on Numpy, SciPy, and MatPlotLib
+
+Deep learning (neural network-based models):
+
+    TensorFlow: Numerical computing and large-scale machine learning
+    Keras: Implementing neural networks
+    Theanno: Defining, optimizing, and evaluating mathematical expressions involving arrays
+    PyTorch: Computer vision, NLP, and experimentation
+
+Computer Vision (object detection, image classification, facial recognition, image segmentation)
+
+    OpenCV: Real-time computer visionn applications
+    Scikit-image: Image processing algorithms
+    TorchVision: Popular data sets, image loading, pre-trained deep learning architectures, and image transformationns.
+
+Natural Language Processing:
+
+    NLTK: Text processing, tokenizationn, and stemming
+    TextBlob: Part-of-speech tagging, noun phrase extraction, sentiment analysis, and translation
+    Stanza: Pre-trained models for tasks such as part-of-speech tagging, named entity recognition, and dependency parsing.
+
+Generative AI:
+
+    Hugging face transformers: text generation, language translation, and sentiment analysis
+    PyTorch: Uses deep learning to create generative models such as Generative Adversial Networks (GANS) and transformers for text and image generation.
+
+------------------
+
+
+
+SCIKIT-LEARN - Basic Machine Learning workflow
+
+    from sklearn import preprocessing
+    X = preproccessing.StandardScaler().fit(X).transform(X)
+
+    from sklearn.model_selection import train_test_split
+    X_train, X_text, y_train, y_test = =train_test_split(X, y, test_size = 0.33)
+
+    from sklearn import svm //Support Vector Classification algorithm
+    clf = svm.SVC(gamma=0.001, C=100.)
+
+
+
+clf "cliff" model:
+
+learns to predict the classes for unknown cases by passing the training set to the fit method, then you can use the test data to generate predictions. The result tells you the predicted class for each observation in the test set.
+You can also use different metrics to evaluate model accuracy, such as a confusion  to compare the predicted and actual labels for the test set.
+You can save your model as a pickle file and retrieve it whenever you like.
+
+
+
+-------------------
+
+
+Supervised vs Unsupervised basics
+
+Clustering, unlabeled data pattern detection, etc : Unsupervised
+Learning based on trial and error through interactions: Reinforcement learning
+A model that trains on labeled data to predict unknown labels
+
+
+Content-based filtering: uses product features (metadata) like genre, price, brand, ingredients, etc. to recommend items similar to what the user liked before.
+        It relies onn similarities between item features, not between users
+
+
+
+----------------
+
+LINEAR REGRESSION
+
+
+Models a relationship between a continuous target variable and explanatory features
+
+Types
+    Simple regression
+        linear or nonlinear; single independent variable estimates dependent variable  
+    Multiple regression
+        also linear or nonlinear; multiple independent variables estimate a dependent variable
+
+Examples
+    Sales forecasing
+    Price estimation
+    Predictive maintenance
+    Employment income
+
+    Estimate the rainfall in a region based on metereological factors, such as temp, humidity, wind speed, and air pressure.
+    It can also be used int he field of environmental protection: to determine severity of wildfires
+
+    Healthcare: estimate liklihood of diseases spreading, risk of chronic deseases, ect.
+
+
+
+REGRESSION ALGORITHMS 
+
+Linear and Polynomial Regression
+    Classical statistical modeling methods
+Random Forest and XGBoost are modern machine learning regression models
+Others are K-nearest neighbors, support vector machines, and neural networks.
+
+
+MSE measures how poorly a regression line fits the values of a data set
+Orginary Least Squares regression (OLS regression) method is useful bc it is simple and easy to understand. However, its accuracy can be greatly reduced by outliers.
+
+
+
+Multiple  linear regression and simple linear regression
+- Multiple linear regression better model than simple linear, though too many variables can cause overfitting
+- To improve prediction, convert categorical independent variables can be incorporated into a reg model by converting them into numerical variables
+    - Transform into boolean features
+
+Applications of multiple linear regression:
+- Education to predict outcomes and explain relationships between variables.
+- Used to predict the impact of changes in "What-if" scenarios
+
+Correlation pitfals
+- Models might depend on a group of correlated or colinear variables
+    - when two variables are correlated, they are no longer independent variables because they are predictors of each other, ie colinear
+- Solution is to remove any redundant variables
+    - Select variables which are:
+        - Most understood
+        - Controlable
+        - Most correlated with the target
+
+Fitting a hyperplane
+- Simple linear regression: equation defines a 2D line
+- Multiple linear regression using 2+ features: plane splicing data beyond 2D
+
+Residual error: differencer between predicted value and true value
+
+Multiple linear regression aims to minimize the MSE equation by finding the best parameters
+- estimating parametters: gradient descent useful for large datasets
+
+Feature Engineering:
+To help with selecting predictive features that are not redundant, consider the following scatter matrix, which shows the scatter plots for each pair of input features. The diagonal of the matrix shows each feature's histogram.
+    axes = pd.plotting.scatter_matrix(df, alpha=0.2)
+    # need to rotate axis labels so we can read them
+    for ax in axes.flatten():
+        ax.xaxis.label.set_rotation(90)
+        ax.yaxis.label.set_rotation(0)
+        ax.yaxis.label.set_ha('right')
+
+    plt.tight_layout()
+    plt.gcf().subplots_adjust(wspace=0, hspace=0)
+    plt.show()
+
+You should standardize your input features so the model doesn't inadvertently favor any feature due to its magnitude. The typical way to do this is to subtract the mean and divide by the standard deviation. Scikit-learn can do this for you.
+    std_scaler = preprocessing.StandardScaler()
+    X_std = std_scaler.fit_transform(X)
+
+Polynomial and Non-Linear Regressionfrom sklearn import preprocessing
+    - polynomial, exponential, logarithmic, ect.
+    - Useful for a dataset that follows an exponential growth pattern
+
+Polynomial Regression
+    - uses orginary LR to indirectly fit data to polynomial expressions of the features rather than the features themselves
+    - relationship between independent variable X and the dependent variable y is modeled as an n-th degree polynomial in X
+Nonlinear regression
+    - follows same idea, but bases its inputs on functions of the given features, such as the logarithm or exponential of features.
+    - doesn't necessarily reduce to LR like Polynomial does
+    - examples:
+        - exponential or compound growth: how investments grow with compound interest rates
+        - logarithmic: law of diminighing returns; how incremental gains in productivity or profit can reduce as investment in a production factor, such as labor increases.
+        - Periodicity: seasonality
+
+
+------------------------
+
+LOGISTIC REGRESSION
+
+- Log Reg is a statistical modeling technique that predicts the probability of an observation belonging to one of two classes like TRUE or FALSE
+- in LM logistic regression refers to a binary classifier based on statistical logistical regression
+
+- when to use:
+    - when the target in data is binary
+    - if the data is linearly seperable, the decision boundary of log regres is a line, plane,, or hyperplane
+- Both a probability predictor and a binary classifier
+     - ex: can be used to predict heart attack risk within a specified time period based on age, sex, BMI
+
+
+- Training a logistic regression model
+    -  Identify parameters that map input features to target outcomes
+    - Objective: predict classes with mimimal error.
+    - Find parameters/theta that minimizes the cost function / log loss
+
+    -To train:
+        - Choose set of parameters (Theta)
+        - Predict probability that class = 1
+        - Calculate prediction error (cost function)
+        - Update theta to reduce prediction error
+
+- Gradient descent
+    - Goal: change parameter values and find path to optimal parameters to minimize the cost function
+    - Large data set = slow descent
+    - SGD ((Stochastic Gradient Descent))
+        - faster but can be less accurate
+        - uses a random data subset and scales well
+        - more likely to overlook local minima and find global minima of the cost function
+            - converges toward the global minimum but can walk around it for some time
+        - SGD convergence can be improved by:
+            - decreasing learning rates
+            - gradually increasing sample size
+
+
+
+-----------------------------------------------------
+
+BUILDING SUPERVISED MODELS
+
+- Classification
+    - Applications:
+        - problems expressed as associations between feature and target variables
+            - email filtering
+            - speech-to-text
+            - handwriting recognition
+            - biometric identification
+            - document classification
+    - Churn prediction: if customer will discontinue service
+    - Customer segmentation: predict the category of a customer
+    - Advertising: Predict if a customer will respond to a campaign
+
+- Classification algorithms:
+    - Naive Bayes
+    - Logistic Regression
+    - Decision Trees
+    - K-nearest neighbors
+    - Support Vector Machines
+    - Neural Networks
+
+- Feature Scaling and One-hot Encoding
+    - Scale the numerical features to standardize their ranges for better model performance.
+
+            # Standardizing continuous numerical features
+            continuous_columns = data.select_dtypes(include=['float64']).columns.tolist()
+
+            scaler = StandardScaler()
+            scaled_features = scaler.fit_transform(data[continuous_columns])
+
+            # Converting to a DataFrame
+            scaled_df = pd.DataFrame(scaled_features, columns=scaler.get_feature_names_out(continuous_columns))
+
+            # Combining with the original dataset
+            scaled_data = pd.concat([data.drop(columns=continuous_columns), scaled_df], axis=1)
+
+    - Convert categorical variables into numerical format using one-hot encoding.
+         
+            # Identifying categorical columns
+            categorical_columns = scaled_data.select_dtypes(include=['object']).columns.tolist()
+            categorical_columns.remove('NObeyesdad')  # Exclude target column
+
+            # Applying one-hot encoding
+            encoder = OneHotEncoder(sparse_output=False, drop='first')
+            encoded_features = encoder.fit_transform(scaled_data[categorical_columns])
+
+            # Converting to a DataFrame
+            encoded_df = pd.DataFrame(encoded_features, columns=encoder.get_feature_names_out(categorical_columns))
+
+            # Combining with the original dataset
+            prepped_data = pd.concat([scaled_data.drop(columns=categorical_columns), encoded_df], axis=1)
+
+
+----------------
+
+
+- Decision Trees
+    - each internal node corresponds to a test
+    - each branch corresponds to the result of the test
+    - each terminal, or leaf node, assigns its data to a class
+
+    - Training a decision tree
+        - Start with a seed node and labeled training data
+        - Find the feature that best splits the data
+        - Each split partitions the node's input data
+        - Repeat the process for each new node
+
+    - Stop growing the tree when:
+        - maximum tree debth is reached
+        - minimum number of data points in a node has been exceeded
+        - minimum number of samples in a leaf has been exceeded
+        - decision tree has reached maximum number of leaf nodes
+
+    - Advantages of Decision Trees:
+        - Model visulization means you can see exactly how the model makes decisionn:
+        - Highly interpretable
+
+
+- Regression Trees
+    - Analogous to a decision tree that predicts continnuous values
+        - In Classification: target is categorical, such as true or False
+            - objective: classify data into discrete sets
+            - target variable: categorical
+            - splitting criterion: Gini impurity or entropy
+            - example use cases:
+                - Spam detection, image classification, medical diagnosis
+
+        - In Regression Trees: a decision tree is adapted to solve regression problems
+            - objective: predict continuous target variable
+            - target variable: float
+            - splitting criterion: variance reduction
+            - example use cases: 
+                - Predicting revenue, temperatures, wildfire risk
+    - Recursively split data set into subsets to maximize information gain
+        - generates a tree-like structure and minimizes randomness of classes to split nodes
+
+----------------
+
+- Other Supervised Learning Models
+
+    - Support Vector Machines used for classification
+
+        -SVM: supervised learning technique used for building classification and regression Models
+        - Classifies input by identifying hyperplane by dividing the data into two classes by finding a decision boundary
+            - Create a hyperplane that segregates data set
+                - SVM incorporates soft margin, which allows it to tolerate misclassifications while maximizing the margin. 
+        - The balance between maximizing the margin and minimizing the number of misclassifications is controlled by a parameter, C
+            - A smaller C allows more misclassifications – softer margin, while a larger C forces a stricter separation – harder margin
+        - Kerneling: mapping data into a higher dimensional space
+            - Scikit-learn:
+                - Linear kernal is default, polynomial, RBF (Radial Basis Function), and Sigmoid options available
+        - SVM Advantages:
+            - Effective in high-dimensional spaces
+            - Robust to overfitting
+            - Excels onn linear separable data
+            - Works with weakly separable data
+            - Best used for Image classification and handwritten digit recognition, sentiment analysis, speech recognition, anomaly detection, and noise filtering
+        - SVM Limitations:
+            - Slow for training on large data sets
+            - Sensitive to noise and overlappng classes
+            - Sensitive to kernal and regularization
+
+    - KNN (k-Nearest Neighbors)
+
+        - Supervised algorithm that takes labeled datapoints and learns how to label other points.
+        - Used for classification and regression
+        - Data points near to each other are neighbors-based with similar features
+
+        - Finding the optimal k
+            - Test a range of k values
+            - Choose k = 1 and calculate accuracy
+            - Repeat increasing k
+            - Identify which k is best
+
+        - KNN algo is a lazy learner:
+            - stores/memorizes its training data
+            - makes predictions based onn distance to training data points
+        
+        - If K to small:
+            - values fluctuate
+            - overfitting
+        - If K to large:
+            - then K-N will smooth out the details
+            - underfitting
+
+        - Skewed distribution causes drawback of majority voting classification
+            - Resolution: 
+                - Weight classification
+                - Abstraction in data representation
+
+        - Selecting relevant features lowers optimal k and improves accuracy
+        - To select, iteratively test by tuning K
+
+        - Normalizing
+            - NN makes predictions based on the distance between data points (samples)
+            - i.e. for a given test point, the algorithm finds the k-nearest neighbors by measuring the distance between the test point and other data points in the dataset
+            - By normalizing/standardizing the data, you ensure that all features contribute equally to the distance calculation.
+            - Since normalization scales each feature to have zero mean and unit variance, it puts all features on the same scale (with no feature dominating due to its larger range).
+
+                X_norm = StandardScaler().fit_transform(X)
+
+
+
+    - Bagging and Boosting to improve model performance
+
+        - Baggging
+            - Objective: Mitigate overfitting
+            - Base Learners: High variance, low bias
+            - Training: Parallel on bootstrapped data
+            - Outcome: Reduced variance
+
+        - Boosting
+            - Objective: Mitigate underfitting
+            - Base Learners: Low variance, High bias
+            - Training: Builds on previous results
+            - Outcome: Reduced bias
+
+---------------
+
+- Clustering
+    - analyzing market segments, identifying meaningful clusters of data
+    - is like Classification but works with unlabeled data, independently finding patterns to form clusters
+
+    - Common applications of clustering
+        - Exploratory data analysis
+            - Uncovers natural groupings for targeted marketing
+                - example: customer segmentation
+        - Pattern recognition
+            - Groups objects and aids in image segmenntation
+                - example: detecting medical abormalities
+        - Anomaly detection
+            - Identifies outliers
+                - example: fraud or equipment malfunctions
+        - Feature engineering:
+            - Creates new features or reduces dimensionality
+            - Improves model performance and interpretability
+        - Data summarization
+            - Simplifies data by summarizing into smaller clusters
+        - Data compression
+            - Reduces data size, example: image compression
+        - Feature selectionn
+            - Identifies essential features that distinguish clusters
+
+    - Partition-based algorithms
+        - divides data into non-overlapping groups
+        - identifies k clusters with minimal variance
+        - these algos are efficient and scale well with large data sets
+    - Density-based algorithms
+        - Creates clusters of any shape
+        - Suitible for irregular clusters and noisy datasets
+        - DBSCAN algo example
+    
+    - Hierarchical clustering
+        -  organize data into a tree of nested clusters, each containing smaller subclusters
+            - generates a dendrogram revealing the relationships between clusters
+            - dendrograms allow you to see the hierarchical structure of clusters and choose an appropriate cutoff.
+            - hierarchical clustering enables the visualization of customer groups at various levels of similarity, making it easier to decide on an optimal number of clusters
+        - two main algorithms, both of these algos are intuitive for small to mid-sized datasets
+            - Agglomerative: merges cluster
+                - bottom-up
+                - employs a bottom-up approach
+                - starts with individual clusters
+                - mergers similar clusters into larger parent clusters
+            - Divisive: splits clusters
+                - top-down approach
+                - starts with all observations in a single root cluster
+                - iteratively splits into smaller child clusters
+            
+- K-means Clustering
+    - iterative, centroid-based clustering algorithm that partitions a dataset into similar groups based on the distance between their centroids
+    - divides data into k non-overlapping clusters
+    - K-clusters have minimal variances around centroids and maximal dissimilarity between clusters
+    
+    - first select k input variable
+        - higher k = smaller clusters with greater detail
+        - lower k = larger clusters with less detail
+    - iteratively assign points to clusters and update centroids
+        - compute distance matrix consisting of the distances from each point to each centroid
+        - assign each point to cluster with nearest centroid
+        - update cluster centroids as the mean position
+    - repeat until centroids stabilize or max iterations reached
+
+    - K-means does not perform very well on imballanced clusters
+
+
+- DBSCAN and HDBSCAN Clustering
+    - DBSCAN
+        - density-based spatial clustering of applications with noise cluttering  
+        - creates clusters with a density value provided by the user
+        - Density-based clustering works by identifying regions of relatively high density
+        - DBSCAN is not iterative
+    - HDBSCAN
+        - hierarchical density-based spatial clustering of applications with noise cluttering
+        - HDBSCAN doesn't require any parameters to be set and uses cluster stability
+        - Cluster stability is the persistence of a cluster over a range of distance thresholds
+
+---------------
+
+Dimension Reduction & Feature Engineering
+    - Dimension reduction is used as a preprocessing step for clustering, simplifying data structure, and improving outcomes. 
+        - used for facial recognition
+        - Dimension reduction reduces data set features without sacraficing critical information.
+            - Simplify data set for ML models
+    - Clustering, such as k-means, can be used for feature selection
+    - Dimension Reduction algorithms: used for transforming original dimensions to create new features
+        - Principle Component Analysis (PCA)
+        - t-distributed stochastic neighbor embedding (t-SNE)
+        - Uniform Manifold Approximation and Projection (UMAP)
+    - PCA
+        - assumes features are linearly correlated
+        - simplifies data, reduces dimensionality and reduces noise and minimize information loss
+        - Can transform features into principle components and retain as much variance as possible
+        - Principle components
+            - orthogonal (statistically independent) to each other
+            - define a new coordinate system
+            - organized in decreasing order of imnportance or how much feature space variance they explain
+            - first few components often contain most of the information while the remaining represent noise
+        - t-SNE
+            - Maps high-dimensional data points to a lower-dimensional space
+            - Good at finding clusters in complex, high-dimensional data - works well with data like images or text
+            - Focuses on preserving similarity of points close together and less so on distant points
+            - Similarity is measured as proximity, using the distance as pairs of point
+            - Unfortunately doesn't scale well and can be difficult to tune as it is sensitive to its hyperparameters
+        - UMAP
+            - often used as an alternative to t-SNE as it scales better
+            - constructs a high-dimensional graph representation of the data based on manifold theory
+                - manifold theory: 
+                    - assumes that the data lies on a lower-dimensional manifold embedded in higher-dimensional space
+            - optimizes a low-dimensional graph structure that best preserves relationships between points in original data
+            - Preserves the global structure of data and provides higher cluster performance than t-SNE
+
+
+----------------------
+
+Classification Metrics and Evaluation Techniques
+    - Classification metrics
+        - Accuracy
+            - Ratio of correctly predicted instances to the total number of instances
+        - Confusion matrix
+            - Breaks down ground truth instances of a class against the number of predicted class instances
+        - Precision
+            - Measures how many predicted positive instances are actually positive
+        - Recall
+            - Measures how many actual positive instances are correctly predicted
+        - F1 Score
+            - Combines precision and recall to represent a model's accuracy as a balanced mean
+            - Useful whern precision and recall are equally as important, such as a patient's health stats in the medical field
+    - Regression metrics
+        - Measure the error; the distance of data points to the predicted path line 
+        - Mean Absolute Error (MAE)
+        - Mean Squarred Error (MSE)
+        - RMSE
+        - R squared 
+        - Total Variance
+    - Unsupervised model metrics
+        - clustering herustics required as unsupervised learning lacks predefined labels
+            - generalizability or stability evaluation
+                - assesses cluster consistency accross data vartiations
+            - dimensionality reduction techniques
+                - visualize clustering outcomes such as scatterplots
+            - cluster-assisted learning
+                - refines clusters through supervised learning evaluations
+            - domain expertise
+                - provides feedback                                
+            - internal evaluation metrics
+                - Rely on input data
+                    - Silhouette Score
+                        - Compares cohesion with each cluster
+                        - Assesses separation from other clusters
+                        - Ranges from -1 to 1
+                        - Higher values indicate better-defined clusters
+                    - Davies-Bouldin Index
+                        - Measures clustert compactness ratio
+                        - Assesses separation from the nearest cluster
+                        - Lower values indicate more distinct clusters
+                        - Indicates more compact clusters
+                    - Inertia
+                        - Used in k-means clustering
+                        - Calculates the sum of variances within clusters
+                        - Lower values suggest more compact clusters
+                        - Increasing clusters reduces variance
+                        - Creates a trade-off in clustering
+            - external evaluation metrics
+                - use ground truth labels where available to evaluate cluster quality
+                    - Adjusted Rand Index
+                        - Measures the similarity between true labels and outcomes
+                        - Ranges from -1 to 1 for scoring
+                        - Score of 1 indicates perfect alignment, while score of 0 indicates random clustering
+                        - Negative values suggest worse-than-random performance
+                    - Normalized Mutual Information
+                        - Quantifies shared information between cluster assignments 
+                        - Scale ranges from 0 to 1
+                        - Score of 1 indicates perfect agreement, while score of 0 indicates no shared information
+                    - Fowlkes-Mallows Index
+                        - Measures clustering performance
+                        - Calculates the geometric mean of precision
+                        - Calculates the geometric mean of recall
+                        - Higher score indicates better clustering results
+    - Dimensionality reduction evaluation (PCA, t-SME, UMAP)
+        - it is crucial to evaluate how well the reduced data retains important information
+            - Explained Variance Ratio in PCA
+                - Measures the variance captured by principle components
+                - Helps determine the acceptable cumulative explained variance
+            - Reconstruction Error
+                - Assesses how original data can be reconstructed
+                - Lower values indicate better information preservation
+            Neighborhood Preservation
+                - Evaluates relationships between data points
+                - Useful for t-SNE and UMAP
+
+---------------------------
+
+- Cross-Validation and Advanced Model Validation Techniques
+    - Model validation: trying to optimize model without jeopardizing its ability to predict well on unseen data
+    - Prevents overfitting when selecting the best model configuration by tuning hyperparameters
+
+    - Data snooping 
+        - Checking performance on the test data before you are done optimizing your model 
+            - a form of data leakage
+        - Avoiding data snooping
+            - Decouple model tuning from the final evaluation 
+            - Validation: tuning model on training data and testing on unseen test data once satisfied
+    - Training set
+        - Used to train the model
+    - Validation set
+        - Subset of training set, used during model optimization to evaluate model's performance
+    - Test set
+        - Held-back, unseen data used for final evaluation
+
+    - K-fold cross-validation
+        - What to do when you don't have enough data for three different sets of data to avoid overfitting?
+            - 1. Divide into K equal-sized folds
+            - 2. For each trial model:
+                - For each fold:    
+                    - Train on remaining k-1 folds
+                    - Test on fold
+                    - Store model score
+                    - Compute aggregated score
+            - 3. Select set of hyperparameters that led to the best model
+            - Every observation used for training and validation
+                - This greatly increases the utilization of data you have on hand
+                - K-fold cross-validation, typically 5 to 10 fold, proivides a more robust technique to robustify models for unseen data
+        - K-fold advantages
+            - Varying the validation set:  
+                - Increases the amount of data the model is trained and tested on
+                - Reduces overfitting by varying the validation set and smoothing out unwanted details
+                - Improves reliability of model generalizability estimation
+
+- Regularization in Regression and Classification
+    - Regularization is a regression technique to prevent overfitting
+    - Modified cost functions w/ lambda as the regularization hyperparameter
+    - Ridge and lasso regression
+        - Ridge regression adds an L2 penalty
+        - Lasso regression adds an L1 penalty 
+            - Lasso is most beneficial when the data is sparse annd has many irrrelevant features
+            - Lasso (L1 regularization) forces some coefficients to zero, effectively performing feature selection by excluding irrelevant features from the model.
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+Course 2 - Intro to Deep Learning & Neural Networks with Keras
+
+- Neural Networks (NNs)
+    - Real Neural Networks:
+        - Algorithms that are used in deep learning are largely inspired by the way neurons and neural networks function and process data in the brainn
+    - Neurons
+        - Main body of a neuron is the soma
+        - Extensive network of arms sticking out of the body is called the dendrites
+        - Long arm that sticks out of the soma in the other direction is called the axon
+        - Whiskers at the end of the axon are called the synapses
+        - Dendrites receive electrical impulses that carry information from synapses of other adjoining neurons
+        - In the nucleus, electrical impluses are processed by combining them, and then they are passed on to the axon
+        - Axon carries the processed information to the synapses, and the output of this neuron becomes the input to thousannds of other neurons
+        - Learning in the brain occurs by repeatedly activating certain neural connections over others, and this reinforces those connections
+        - An artificial neuron behaves in the same way as a biological neuron
+    - Artificial Neurons
+        - aka Perceptron
+        - calculates the weighted sum of inputs and compares it with the threshold value
+            - if the sum is greater than the threshold, the output it 1, otherwise it is 0
+        - fundamental building block of artificial neural networks 
+        - Multiple artificial neurons are stacked together into layers
+    - Artificial Neural Network
+        - Input layer
+        - Hidden layers
+        - Output layer
+    - Forward propagation
+        - the method by which data flows through a neuron's layers in a neural network from the input layer to the output layer. 
+        - simply outputting a weighted sum of imputs limits the tasks that can be performed by the neural network (NN)
+            - a better processing of the data would be to map the weighted sum to a nonlinear space:
+                - A popular function is the sigmoid function:
+                    - if the weighted sum is a very large positive number, the output of the neuron is close to 1
+                    - if the weighted sum is a very negative number, the output of the neuron is close to 0
+                - Nonlinear transformation functions such as the sigmoid function are called Activation Functions
+        - Activation functions
+            - decide whether a neuron should be activated
+            - a NN without an activation function is essentially just a linear regression model
+            
+--------------------          
+
+- Gradient Descent
+    - find the best weight (w) value
+    - iterative optimization algorithm for finding the minimum of a function
+    - A large learning rate can lead to big steps and missinng the minimum point
+    - A small learning rate can result in extremely small steps and cause the algo to take a long time to find the minimum point
+- Backpropagation
+    - lots of math
+    - Initialize the weights and the biases
+    - Iteratively repreat the following steps:
+        - 1. Calculate network output using forward propagation
+        - 2. Calculate error between ground truth and estimated output
+        - 3. Update weights and biases through backpropagation
+        - 4. Repeat above three steps until:   
+            - Number of iterations is reached
+            OR
+            - Error between ground truth and predicted output is below predefined threshold
+- Vanishing Gradient
+    - Problem with the sigmoid activation function that prevented NNs from booming sooner
+    - In a very simple network of two neurons only, the gradients are smaller, but more importantly, the gradients of the error with respect to W1 is very small.
+    - Because we are using the sigmoid function as the activation function, then all the intermediate values in the network are between 0 and 1.
+    - When we do backpropagation, we keep multiplying factors that are less than 1 by each other, so their gradients tend to get smaller and smaller as we keep moving backwards in the network.
+    - Neurons in the earlier layers of the network learn very slowly compared to the neurons in the later layers. As the earlier layers are the slowest to train, the training process takes too long, and prediction accuracy is compromised.
+    - And we don't use the sigmoid function or similar functions as activation functions since they're prone to the vanishing gradient problem.
+- Activation Functions
+    - play a major role in the learning process of NNs
+    - the sigmoid function has some limitations as an activation function
+        - the sigmoid function transforms input values into a range between 0 and 1
+        - Produces an "S-shaped" curve, making it suitable for probabilistic outputs or binary classification tasks.
+        - Continuous, differentiable, and monotonically increasing across its domain (-∞, +∞).
+        - Its derivative is simple to compute: σ′(z)=σ(z)⋅(1−σ(z)). This is essential for backpropagation.
+        - Useful for output layers where probabilities are required (e.g., logistic regression).
+        - Enables non-linear decision boundaries, allowing neural networks to learn complex relationships.
+    - Sigmoid function limitations
+        - Suffers from the vanishing gradient problem: For large positive or negative inputs, the gradient approaches zero, slowing down learning in deep networks.
+        - Computationally expensive due to the exponential operation involved.
+    - Some examples of activation functions:
+        - Binary step function
+        - Linear / identify function
+        - Sigmoid / logistic function
+        - Hyperbolic tangent function (tanh)
+        - Rectified linear unit (ReLU) function
+        - Leaky ReLU function
+        - Softmax function
+    - Hyperbolic tangent function (tanh)
+        - very similar to sigmoid function, is actually just ascaled version nof sigmoid function
+        - symetric over the origin unlike the sigmoid function
+        - it can also lead to the vanishing gradient problem in very deap NNs, and is often avoided these days
+    - *** ReLU function 
+        - most widely used activation function when designing NNs today
+        - main advantage is that it doesn't activate all neurons simultaneously 
+        - is only utilized within the hidden layers
+        - ReLU outputs the maximum of zero and the input value using f(x)=max⁡(0,x)f(x)=max(0,x).
+        - Non-linear but simpler than sigmoid; it outputs zero for negative inputs and the input value for positive inputs.
+        - The derivative is straightforward: f′(x)=1f′(x)=1 for x>0x>0, and f′(x)=0f′(x)=0 for x≤0x≤0.
+        - Mitigates the vanishing gradient problem by maintaining a constant gradient (1) for positive inputs, enabling faster convergence in deep networks.
+        - Computationally efficient due to its simplicity.
+        - ReLU 
+            - Can lead to "dead neurons," where neurons output zero consistently due to negative inputs. This can be mitigated using variants like Leaky ReLU.
+    - Softmax function
+        - also a type of sigmoid function
+        - handy when handling classification problems
+            - softmax function is ideally used in the output layer of the classifier where we are trying to get the probabilities to define the class of each input
+    - When building NN models, begin by using the ReLU function and switch over to other functions if the ReLU function doesn't yield good performance
+
+
+---------------------
+
+- Deep Learning Libraries
+
+    - Most popular libaries:
+        - TensorFlow
+        - PyTorch
+        - Keras
+        - Theano ( no longer supported)
+
+            - TensorFlow
+                - mosat popular deep learning library
+                - developed by Google and released to the public in 2015
+            - PyTorch
+                - cousin of Lua-based Torch framework
+                - Supports machine learning algorithms running on GPUs
+                - Is tailored to be fast and feel native
+                - Was released iin 2016 as competitor to TensorFlow
+                - Is supported and used at Facebook (now Meta)
+                - Pytorch and TensorFlow both have a fairly steep learning curve
+            - Keras
+                - high-level API for building deep learning models
+                - easiest API, go-to library for fast development
+                - enables building of complex deep learning network with few lines of code
+                - runs on top of low-level library such as TensorFlow
+                    - Install TensorFlow first
+                - Is also supported by Google
+            - Which to choose?
+                - Build quick = Keras
+                - More control = PyTorch or TensorFlow
+                - boils down to personal preference
+            
+    - Dense networks
+        - A neural network that has all of the nodes in one layer being connected to all other nodes in the next layer
+
+
+- Regression Models with Keras
+
+    import keras
+    from keras.models import Sequential
+    from keras.layers import Dense
+
+    model = Sequential()
+
+    n_cols = whatever_data.shape[1]
+
+
+            //  \/  number of neurons, activation function, number of columnsn in data
+    model.add(Dense(5, activation='relu', input_shape=(n_cols,))) // first hidden layer needs input_shape parameter; number of columns in our dataset
+    model.add(Dense(5, activation='relu'))                        // 2nd ... n layers 
+    model.add(Dense(1))                                           // output layer
+
+    model.compile(optimizer='adam', loss='mean_squared_error')    // adam minimization optimizer doesn't need a specified learning rate
+    model.fit(predictors, target_)
+
+    predictions = model.predict(test_data)
+
+- Classification Models with Keras
+
+    import keras
+    from keras.models import Sequential
+    from keras.layers import Dense
+    from keras.utils import to_categorical          // used to transform the target column into an array of binary numbers for classification
+
+    model = Sequential()
+
+    n_cols = some_data.shape[1]
+
+    target = to_categorical(target)
+
+    model.add(Dense(5, activation='relu', input_shape=(n_cols,)))
+    model.add(Dense(5, activation='relu'))
+    model.add(Dense(4, activation='softmax'))       // output layer
+
+    model.compile(optimizer='adam',
+                  loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+    model.fit(predictors, target, epochs=10)
+
+
+- Shallow vs Deep Neural Networks
+    -Shallow
+        - Consists of one or two hidden layers
+        - Takes input only as vectors
+    -Deep
+        - Consists of three or more hidden layers
+        - Has large number of neurons in each layer
+        - Takes raw data such as images and text
+         
+- Convolutional Neural Networks
+    - made of neorns, which need to have their weights and biases optimized
+    - Each neuron combines the inputs that it receives by computing the dot product between each input and the corresponding weight before it before it fits the resulting total input into an activation function (ReLU usually)
+    - CNNs make the explicit assumption that the inputs are images
+        - Enables us to incorporate certain properties into their architectureSd reduce number of parameters
+        - CNNs are best for solving problems related to image recognition, object detection, and other computer vision applications
+
+
+    
+    model = Sequential()
+
+    input = (128, 128, 3)
+    model.add(Input(shape=(input_shape)))
+
+    model.add(Conv2D(16, kernal_size=(2,2), strides=(1,1),
+                    activation='relu'))
+                    
+    model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+    model.add(Conv2D(32, kernal_size=(2,2), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2,2)))
+    model.add(Flatten())
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(num_classes, activation='softmax'))
+
+    
+- Recurrent Neural Networks
+    - NNs treat data points as independent instances
+    - Traditional deep learning models unsuitable for some applications
+    - RNNs take in the output from the previous data point that is fed into the network
+    - RNNs are very good at modeling patterns and sequences of data
+        - useful for text, genomes, handwriting, stock markets
+    - Algorithms take time and sequence into account
+        -Temporal dimension
+    - Long short-term memory model (LSTM): popular RNN
+        - Applications
+            - Image generation
+            - Handwriting generation
+            - Automatic captioning of images
+            - Automatic description of videos
+- Transformers
+    - Neural network architecture that's revolutionized Natural Language Processing (NLP)
+    - Excel at capturing long-range dependencies in sequential data
+    - Ideal for:
+        - Machine translation
+        - Text summarization
+        - Question answering
+        - Text-to-image generation
+    - Transformer types:
+        - GPT: ChatGPT
+        - BERT: Google search/translation
+        - Image transformer: Adobe Photoshop
+    - Attention mechanism
+        - Key innovation in transformers
+        - Allows the model to weigh importance of different parts of input sequence when processing each input or token
+        - Transformers can effectively capture long-range dependencies
+
+        - Self-attention mechanism
+            - Transformers use self-attention mechanism to process text data
+            - Self-attention mechanism has three parts/vectors:
+                - Query (Q)
+                    - the word we are focusing on
+                - Key (K)
+                    - all other words
+                - Value(V)
+                    - the information passed to the next layer
+            - Attention scores
+                - Query token vector compared to key vectors of all other tokens using a dot-product
+                - Indicate relevance of each token to current token
+            - Weighted sum
+                - Attention scores are normalized
+                - Weighted sum of value vectors is computed
+        - Cross-attention mechanism for text-to-image generation
+            - Contextualized embeddings are learned from the entire sentence using the self-attention mechanism
+            - Embeddings are then passed through the transformer encoder to give us a sequence of queries (Q) representing the text
+            - Transformer model for images (for example, DALL-E) uses a cross-attentionn mechanism for image generation based on Q
+            - Using a variant of the auto-regressive model, DALL-E generates an image
+
+    - Transformers vs RNNs
+        - Transformers can be parallelized, significantly speeding up training 
+        - Effective for machine translation. text generation, and other NLP applications
+        - RNNs process data sequentially, limiting parallelization
+        - RNNs struggle with long-range context and suffer from vanishing gradients
+        - Transformers excel in handling complex relationships across long sequences
+        - Transformer shortfalls:
+            - Rely soley on data-driven learning to infer relationships, so they require a huge amount of training data.
+            - As they rely on large data sets to learn from context, they inherit the bias in the training data
+        -  Despite these shortcomings, transformers have been one of the most important neural network developments of current times and have been instrumental in providing accessibility to the power of neural networks to the general public 
+
+    - Autoencoders
+        - Autoencoding is a data compression algorithm
+            - Compression and decompression functions are learned automatically from data
+        - Autoencoders are built using NNs
+        - Data-specific
+            - They will only be able to compress data similar to what they train on
+            - Autoencoder trained on car pictures would be poor at compressing building pictures
+        - Applications: 
+            - Data denoising 
+            - Dimensionality reductionn for data visulization
+        - Unsupervised NN that uses backpropagation
+            - Setting the target variable to be the same as an input:
+            - AKA tries learning approximation of identify function
+            - Because of nonlinear activation functions in NNs, autoencoders can learn data projections more interesting than PCA or other basic techniques that can only handle linear transformations
+        - Restricted Boltzmann machines (RBMs)
+            - RBMs are a very popular type of autoencoder
+            - Successful applications:
+                - Fix imbalanced data sets
+                - Estimate missing data set values
+                - Automatic feature extraction
+                - Because RBMs learn the input to regenerate it, they can learn the distribution of the minority class in an imbalanced data set and then generate more data points of that class, transforming the imbalanced data set into a balanced data set. 
+
+
+--------------------------------------
+
+Course 3 - Deep Learning with Keras and Tensorflow
+
+- Advanced Keras Functional API
+    - The Keras Functional API is a powerful tool that provides the flexibility needed to build complex neural network models
+    - Its advantages over the Sequential API include the ability to create models with multiple inputs and outputs, shared layers, and intricate architectures, make it essential for advanced deep learning applications
+    - By understanding and utilizing the Functional API, you can enhance your models' capabilities and tackle a wider range of problems
+- Subclassing API
+    - Particularly useful when you need to build models where the forward pass cannot be defined statically
+    - Offers the most flexibility
+        - Implements subclassing of Model class and call() method
+- Keras Functional ALPI enables you to define layers and connect them in a graph of layers
+- The Functional API can handle models with multiple inputs and outputs
+- Another powerful feature of the Functional API is shared layers, which are helpful when you want to apply the same transformation to multiple inputs
+- Subclassing API allows you to define custom and dynamic models by subclassing the 'Model' class and implementing your own 'call()' method.
+- The tf.GradientTape() method provides more flexibility control over the training process compared to the built in Keras.fit() method
+
+- Custom Layers
+    - allow you:
+        - implement novel research ideas
+        - optimize performance
+        - enhance flexibility by defining unique behaviors
+        - improve readability and maintenance
+
+
+    - TensorFlow 2.x
+        ○ Eager execution
+            § More intuitive by executing operations immediately
+            § Simplifies debugging
+                □ Immediate feedback
+            § Facilitates interactive programming
+            § Simplified code, straightforward
+        ○ Intuitive high-level APIs
+            § Simplifies process of building and training models
+            § Integrates Keras
+                □ User-friendly, modular and composable, extensive documentation
+        ○ Support for various platforms and devices
+            § Includes mobile, web, and embedded devices
+        ○ Scalability and performance
+            § Optimizes performance for large-scale machine learning tasks
+        ○ Rich ecosystem
+            § Includes a wide range of tools and libraries that enhance capabilities
+        ○ Code example of Keras integration:
+            From tensorflow.keras.models import Sequential
+            From tensorflow.keras.layers import Dense
+            # Define a simple feedforward neural network
+            Model = Sequential([
+                Dense((64, activation='relu', input_shape(784,)),
+                Dense(10, activation='softmax')
+            ])
+            # Compile the model 
+            Model.compile(optimizer=='adam',
+            Loss = 'sparse_categorical_crossentropy',
+            Metrics=['accuracy']
+            
+        ○ Advanced Keras Functional API Glossary:
+        Term	Definition
+        Build	A method that creates the layer's weights, called once during the first invocation of the layer.
+        Call	A method that defines the forward pass logic of the layer.
+        Custom layer	A user-defined layer that allows customization of operations in a neural network, providing flexibility for specific tasks and experimentation.
+        Eager execution	A TensorFlow feature that executes operations immediately, making it more intuitive and useful for debugging and interactive programming.
+        Init	A method that initializes the layer's attributes.
+        Input layer	The first layer in a model that defines the input shape.
+        Keras	A high-level neural network API written in Python that can run on top of TensorFlow, Theano, and CNTK.
+        Keras Functional API	A powerful API for creating complex models with multiple inputs and outputs, shared layers, and non-sequential data flows.
+        Keras Sequential API	Creates models with layers in a linear stack.
+        ReLU	An activation function that outputs the input directly if positive; otherwise, it outputs zero. Commonly used in hidden layers.
+        Shared layer	Helpful when applying the same transformation to multiple inputs.
+        Softmax	An activation function suitable for classification tasks.
+        TensorFlow 2.x	An open-source platform for machine learning developed by Google, providing comprehensive tools to build and deploy machine learning models across various environments, from servers to edge devices.
+        TensorBoard	A visualization toolkit for TensorFlow that provides insights into the model training process, including metrics, graphs, and other useful data.
+        TensorFlow Extended (TFX)	An end-to-end platform for deploying production ML pipelines. TFX provides tools for model deployment, monitoring, and management, ensuring that machine learning models perform reliably in production environments.
+        TensorFlow Hub	A repository of reusable machine learning modules, which can be easily integrated into TensorFlow applications to accelerate development.
+        TensorFlow.js	A library for training and deploying machine learning models in JavaScript environments, such as web browsers and Node.js.
+        TensorFlow Lite	A lightweight framework for deploying machine learning models on mobile and embedded devices.
+        
+    
+        
+        
+    - Advanced Convolutional Neural Networks and Data Augmentation
+    
+        ○ Overview of CNNs
+            § Designed to proc ess and analyze data by mimicking the human visual system
+            § Consists of multiple layers including
+                □ Convolutional layers
+                □ Pooling layers
+                □ Fully connected layers
+            § Each layer performs specific operations
+                □ Extract features from the input image
+                □ Learn and recognize patterns
+            § Basic CNN Model
+                □ Convolutional layers
+                    ® Extract features from the input image
+                    ® Downsample the feature maps to reduce dimensionality
+                □ Fully connected layers
+                    ® Perform final classification
+            § Advanced CNN Architectures
+                □ VGG
+                    ® Known for its simplicity and depth
+                    ® Consists of a series of convolutional layers with small 3x3 filters
+                    ® Max-pooling layers
+                    ® Fully connected layers
+                □ ResNet
+                    ® Residual connections
+                        ◊ Address the vanishing gradient problem
+                        ◊ Allow the network to learn identity mappings, making it easier to train NNs
+                □ Inception Networks
+        
+        ○ Data Augmentation techniques
+            § Important for training robust and generalized models
+            § Introduce variations in the training data
+            § Helps in preventing overfitting
+            § Improves the model's performance on unseen data
+            § Techniques:
+                □ Rotations
+                □ Translations
+                □ Flipping
+                □ Scaling
+                □ Adding noise
+            § Keras allows for using advanced data augmentation techniques such as:
+                □ Feature-wise normalization
+                □ Sample-wise normalization
+                □ Custom augmentation functions
+                
+    - Transformers in Keras
+    
+        ○ The transformer model consists of two main parts: the encoder and the decoder.
+
+        ○ Both the encoder and decoder are composed of layers that include self-attention mechanisms and feedforward neural networks.
+        
+        ○ Transformers have become a cornerstone in deep learning, especially in natural language processing.
+        
+        ○ Understanding and implementing transformers will enable you to build powerful models for various tasks.
+        
+        ○ Sequential data is characterized by its order and the dependency of each element on previous elements. 
+        
+        ○ Transformers address the limitations of recurrent neural networks (RNNs) and long short-term memory networks (LSTMs) by using self-attention mechanisms, which allow the model to attend to all positions in the input sequence simultaneously.
+        
+        ○ Transformers’ versatile architecture makes them applicable to a wide range of domains, including computer vision, speech recognition, and even reinforcement learning.
+        
+        ○ Vision transformers have shown that self-attention mechanisms can be applied to image data.
+        
+        ○ By converting audio signals into spectrograms, transformers can process the sequential nature of speech data.
+        
+        ○ Transformers have found applications in reinforcement learning, where they can be used to model complex dependencies in sequences of states and actions.
+        
+        ○ Time series data is a sequence of data points collected or recorded at successive points in time.
+        
+        ○ By leveraging the self-attention mechanism, transformers can effectively capture long-term dependencies in time series data, making them a powerful tool for forecasting. 
+        
+        ○ The key components of the transformer model include an embedding layer, multiple transformer blocks, and a final dense layer for output prediction.
+        
+        ○ Sequential data is characterized by its temporal or sequential nature, meaning that the order in which data points appear is important.
+        
+        ○ TensorFlow provides several layers and tools specifically designed for sequential data. These include:
+        
+            § RNNs
+        
+            § LSTMs
+        
+            § Gated recurrent units
+        
+            § Convolutional layers for sequence data (Conv1D)
+        
+        ○ Text data requires specific preprocessing steps, such as tokenization and padding. 
+        
+        ○ TensorFlow’s TextVectorization layer helps in converting text data into numerical format suitable for model training.
+        
+    - Unsupervised Learning in Keras
+    
+        - No labels or pre-defined outcomes
+        - Goal is to understand the underlying structure of data
+        - 3 types of unsupervised learning:
+            - Clustering
+            - Association
+                □ Finding relationships between variables inn large datasets
+            - Dimensionality reduction
+                □ Reducing the number of random variables
+    - Autoencoders
+    
+        - A neural network for the purpose of dimensionality reduction or feature learning
+            - Encoder
+                □ Compresses the input into a latent-space representation
+            - Decoder
+                □ Reconstructs the input from the latent-space representation
+        - Trained to minimize the difference between the input and the reconstructed output
+        - -Code of autoencoder in Keras:
+
+        import tensorflow as tf
+        from tensorflow.keras.layers import Input, Dense
+        from tensorflow.keras.models import Model
+        
+        # Define the encoder
+        input_layer = Input((shape(784,))
+        # The encoder compresses the input into 64 features
+        encoded = Dennse(64, activation='relu')((input_layer)
+        
+        # Define the decoder
+        # the decoder reconstructs the original 784 features
+        decoded = Dense((784, activation='sigmoid')(encoded)
+        
+        # Load the dataset
+        (x_train, _), ((x_test,_) = tf.keras.datasets.mnist.load__data
+        
+        # Normalize the data
+        x_train = x_train.astype('float32') / 255.
+        x_test = x_text.astype('float32') / 255.
+        x_train = x_train.reshape((x_train), 784))
+        x_test = x_test.reshape(((len(x_test), 784))
+        
+        # Train the autoencoder
+        autoencoder.fit(x_train, x_train,
+                    epochs=50,
+                    batch_size=256,
+                    shuffle=True,
+                    validation_data=(x_test, x_test)
+                        
+    - Generative Adversarial Networks (GANS) [ THESE THINGS ARE COOL ]
+    
+        ○ consist of two networks, the generator and the discriminator, which compete against each other in a zero sum game. 
+            § Generator network generates new data instances that resemble the training data. 
+            § Discriminator network evaluates the authenticity of the generated data. 
+        ○ The generator tries to fool the discriminator while the discriminator tries to distinguish between real and fake data. 
+        ○ This adversarial process leads to the generator producing increasingly realistic data. 
+        ○ GAN in Keras:
+        
+                import tensorflow as tf
+                from tensorflow.keras.layers import Dense, LeakyReLU, BatchNormalization, Reshape, Flatten, Input
+                from tensorflow.keras.models import Model, Sequential
+                import numpy as np
+                import matplotlib.pyplot as plt
+                
+                # -------- Generator Definition --------
+                def build_generator():
+                    model = Sequential()
+                    # input: 100-dimensional noise vector
+                    model.add(Dense(256, input_dim=100))
+                    model.add(LeakyReLU(alpha=0.2))  # leaky ReLU activation
+                    model.add(BatchNormalization(momentum=0.8))  # normalize to help stability
+                
+                    model.add(Dense(512))
+                    model.add(LeakyReLU(alpha=0.2))
+                    model.add(BatchNormalization(momentum=0.8))
+                
+                    model.add(Dense(1024))
+                    model.add(LeakyReLU(alpha=0.2))
+                    model.add(BatchNormalization(momentum=0.8))
+                
+                    # output layer: 28x28x1 image with tanh activation (values between -1 and 1)
+                    model.add(Dense(28 * 28 * 1, activation='tanh'))
+                    model.add(Reshape((28, 28, 1)))
+                
+                    return model
+                
+                # -------- Discriminator Definition --------
+                def build_discriminator():
+                    model = Sequential()
+                    model.add(Flatten(input_shape=(28, 28, 1)))  # flatten 2D image to vector
+                    model.add(Dense(512))
+                    model.add(LeakyReLU(alpha=0.2))
+                    model.add(Dense(256))
+                    model.add(LeakyReLU(alpha=0.2))
+                    model.add(Dense(1, activation='sigmoid'))  # output: probability real/fake
+                    return model
+                
+                # -------- Compile Models --------
+                discriminator = build_discriminator()
+                discriminator.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+                
+                generator = build_generator()
+                
+                # Stack generator + discriminator (freeze discriminator during generator training)
+                gan_input = Input(shape=(100,))
+                generated_image = generator(gan_input)
+                discriminator.trainable = False
+                gan_output = discriminator(generated_image)
+                gan = Model(gan_input, gan_output)
+                gan.compile(loss='binary_crossentropy', optimizer='adam')
+                
+                # -------- Data Preparation --------
+                from tensorflow.keras.datasets import mnist
+                (x_train, _), (_, _) = mnist.load_data()
+                x_train = x_train / 127.5 - 1.  # normalize to [-1, 1]
+                x_train = np.expand_dims(x_train, axis=-1)  # expand to shape (28, 28, 1)
+                
+                # -------- Training Parameters --------
+                batch_size = 64
+                epochs = 10000
+                sample_interval = 1000
+                real = np.ones((batch_size, 1))   # label for real images
+                fake = np.zeros((batch_size, 1))  # label for fake images
+                
+                # -------- Training Loop --------
+                for epoch in range(epochs):
+                    # --- Train Discriminator ---
+                    idx = np.random.randint(0, x_train.shape[0], batch_size)
+                    real_images = x_train[idx]
+                    noise = np.random.normal(0, 1, (batch_size, 100))
+                    generated_images = generator.predict(noise)
+                
+                    d_loss_real = discriminator.train_on_batch(real_images, real)
+                    d_loss_fake = discriminator.train_on_batch(generated_images, fake)
+                    d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
+                
+                    # --- Train Generator ---
+                    noise = np.random.normal(0, 1, (batch_size, 100))
+                    g_loss = gan.train_on_batch(noise, real)  # want generator to fool discriminator
+                
+                    # --- Progress Logging ---
+                    if epoch % sample_interval == 0:
+                        print(f"{epoch} [D loss: {d_loss[0]}] [D accuracy: {100 * d_loss[1]}] [G loss: {g_loss}]")
+                
+                # -------- Sampling Function --------
+                def sample_images(epoch):
+                    noise = np.random.normal(0, 1, (25, 100))
+                    gen_images = generator.predict(noise)
+                    gen_images = 0.5 * gen_images + 0.5  # rescale to [0, 1]
+                
+                    fig, axs = plt.subplots(5, 5, figsize=(10, 10))
+                    count = 0
+                    for i in range(5):
+                        for j in range(5):
+                            axs[i, j].imshow(gen_images[count, :, :, 0], cmap='gray')
+                            axs[i, j].axis('off')
+                            count += 1
+                    plt.show()
+                
+                # Generate final image grid after training
+                sample_images(epochs)
+                
+    - Diffusion Models
+        ○ Produce high-quality synthetic data
+        ○ Probabilistic models that generate data by iteratively refining a noisy initial sample
+            § Start with random noise
+            § Apply a series of transformations
+            § Produce a coherent sample
+            § Simulate the diffusion process, where particles spread out from regions of high concentration to regions of low concentration
+        ○ Defines a forward process and a reverse process
+        ○ Applications of diffusion models
+            § Image Generation
+                □ Create realistic images from random noise
+            § Image Denoising
+                □ Remove noise from images
+            § Data augmentation
+                □ Generate synthetic data
+    - Unsupervised various code applications
+
+        ○ Clustering with KMeans on MNIST
+            import tensorflow as tf
+            from tensorflow.keras.datasets import mnist
+            import numpy as np
+            from sklearn.cluster import KMeans
+            import matplotlib.pyplot as plt
+            
+            # Load and preprocess the MNIST dataset
+            (x_train, _), (_, _) = mnist.load_data()  # only need training images, not labels
+            x_train = x_train.astype('float32') / 255.0  # normalize pixel values to [0, 1]
+            x_train = x_train.reshape(-1, 28 * 28)       # flatten each image from 28x28 to 784-dim vector
+            
+            # Apply K-means clustering
+            kmeans = KMeans(n_clusters=10)              # assume 10 clusters (digits 0-9)
+            kmeans.fit(x_train)                         # fit KMeans on training data
+            labels = kmeans.labels_                     # get cluster assignments for each sample
+            
+        ○ Displaying Clustered Images
+            # Display 10 sample images per cluster
+            def display_cluster_images(x_train, labels):
+                plt.figure(figsize=(10, 10))  # create a large canvas
+            
+                for i in range(10):  # loop over each cluster
+                    idxs = np.where(labels == i)[0]  # get indices of images in cluster i
+            
+                    for j in range(10):  # show 10 images from this cluster
+                        plt_idx = i * 10 + j + 1
+                        plt.subplot(10, 10, plt_idx)  # 10x10 grid
+                        plt.imshow(x_train[idxs[j]].reshape(28, 28), cmap='gray')  # reshape to image
+                        plt.axis('off')  # hide axes
+            
+                plt.show()
+            
+            # visualize the clusters
+            display_cluster_images(x_train, labels)
+            
+        ○ Building an Autoencoder for Dimensionality Reduction
+            from tensorflow.keras.layers import Input, Dense
+            from tensorflow.keras.models import Model
+            
+            # Define the autoencoder model
+            input_layer = Input(shape=(784,))                         # flattened MNIST input
+            encoded = Dense(64, activation='relu')(input_layer)       # encode to 64-dim
+            bottleneck = Dense(32, activation='relu')(encoded)        # bottleneck: compress to 32-dim
+            decoded = Dense(64, activation='relu')(bottleneck)        # decode back up
+            output_layer = Dense(784, activation='sigmoid')(decoded)  # reconstruct input
+            
+            autoencoder = Model(input_layer, output_layer)  # full autoencoder
+            
+            # Compile the model
+            autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+            
+            # Train the autoencoder
+            autoencoder.fit(x_train, x_train, 
+                            epochs=50, 
+                            batch_size=256, 
+                            shuffle=True, 
+                            validation_split=0.2)
+        
+        ○ Visualizing the Encoded Features with t-SNE
+            from sklearn.manifold import TSNE
+            
+            # Get the encoder part of the autoencoder
+            encoder = Model(input_layer, bottleneck)  # extract the encoder network
+            compressed_data = encoder.predict(x_train)  # encode all training data
+            
+            # Use t-SNE to reduce to 2D for visualization
+            tsne = TSNE(n_components=2)
+            compressed_2d = tsne.fit_transform(compressed_data)
+            
+            # Plot the 2D compressed data
+            plt.scatter(compressed_2d[:, 0], compressed_2d[:, 1], c=labels, cmap='viridis')
+            plt.colorbar()
+            plt.show()
+            
+    - Custom Training Loops
+
+        ○ Components of a custom training loop
+            § Dataset
+            § Optimizer
+            § Loss function
+            § Model
+
+    - Hyperparameter tuning
+    
+        - Helps optimize model performance by finding the best hyperparameters
+        - Hyperparameters - variables that govern the training process of a model
+            - Must be set before the training begins
+            - Examples: learning rate, batch size, number of layers or units per layer
+        - Keras Tuner
+            - Provides search algorithms
+                □ Random search
+                □ Hyperband
+                □ Bayesian optimization
+        - Model Optimization
+            - Weight initialization
+                □ "Xavier (Glorot)" initialization
+                □ "He" initialization
+                    ® Both of these above methods set the weights to avoid issues like vanishing or exploding gradients
+            - Batch normalization
+                □ Normalizes the input layer by adjusting and scaling the activations
+                □ Used in the Sequential model definition step
+            - Mixed precision training
+                □ Uses both 16-bit and 32-bit floating-point types to speed up training on modern GPUs
+            - Model pruning
+                □ Reduces the number of parameters in a model by removing less significant connections or neurons
+            - Quantization
+                □ Reduces the precision of the numbers used to represent the model's weights
+    
+    
+        - Basic TensorFlow usage for Optimization
+        
+            § Mixed precision training
+                □ Leverages both 16 and 32 bit floating point types
+                □ Accelerates model training and reduces memory usage
+                □ Reduces memory bandwidth
+                □ Uses lower precision
+                □ Trains faster without loss of model accuracy
+
+                Mixed_precision.set_global_policy('mixed_float16')
+
+            § Knowledge distillation
+                □ Trains a smaller "student" model to mimic the behavior of a larger "teacher" model
+                    ® Teacher model is usually a deep and complex NN trained to a high accuracy
+                □ Learns from the teacher by trying to match its output
+                □ Reduces model size
+                □ Improves inference time
+                □ Retains the performance of a complex model
+        
+                # Distillation loss function using TensorFlow operations
+                def distillation_loss(teacher_logits, student_logits, temperature=3):
+                    teacher_probs = tf.nn.softmax(teacher_logits / temperature )
+                    student_probs = tf.nn.softmax(student_logits / temperature)
+                    
+                
+    - Reinforcement Learning 
+
+        - Overview
+            § In RL, Agents interact with an Environment
+                □ Agents are ultimately the thing that takes the action
+                    ® Games; the player
+                    ® They choose from a set of available Actions
+                □ The agents impact the Environment, which impacts agents via Rewards
+                □ Rewards are generally unknown and must be estimated by the agent
+                □ The process repeats dynamically, so agents learn how to estimate rewards over time
+            § In general, RL algos are limited due to significant data and computational requirements.
+                □ As a result, many well-known use cases involve learning to play games
+                □ Recommendation engines, marketing, and automated bidding or all examples of business applications of RL today
+            § RL Problems vary significantly
+                □ Solutions represents a Policy by which Agents choose Actions in response to the State
+                □ Agents typically work to maximize expected rewards over time.
+        - Q-Learning with Keras
+            § Widely used reinforcement learning algorithm
+            § Training agents to make sequences of decisions
+            § Learn value of a specific action in a given state
+            § Learns to find the optimal action-section policy for an agent
+            § Q-value function
+                □ Provides a measure of the expected utility of action "a" in state "s"
+                □ Follows the optimal policy
+                □ Q-values are updated iteratively using the Bellman equation:
+                    ® Incorporates both the immediate reward and the estimated future rewards
+    - Steps to Implement Q-Learning with Keras
+        1. Initialize the Environment and Parameters
+            ○ Use a simulation environment like OpenAI’s Gym (e.g., CartPole)
+            ○ Initialize the Q-table or define the Q-network structure
+            ○ Set key hyperparameters:
+                § Learning rate (α): how quickly the network updates Q-values
+                § Discount factor (γ): weight given to future rewards
+                § Exploration rate (ε): probability of choosing random actions for exploration
+        2. Build the Q-Network
+            ○ Construct a neural network to approximate the Q-value function
+            ○ In Keras, use a few dense layers:
+                § Input layer size = number of state features
+                § Output layer size = number of possible actions
+                § Use 2–3 hidden layers with ReLU activation
+        3. Train the Q-Network
+            ○ Implement an ε-greedy strategy:
+                § With probability ε, choose a random action (exploration)
+                § Otherwise, choose the action with the highest Q-value (exploitation)
+            ○ Execute the action in the environment and observe the reward and new state
+
+            ○ BELMAN EQUATION:
+            ○ Update Q-values using the Bellman equation:
+Q(s, a) = Q(s, a) + alpha * (reward + gamma * max(Q(s', a')) - Q(s, a))
+                § Q(s, a): current Q-value for state s and action a
+                § alpha: learning rate
+                § reward: immediate reward received after taking action a
+                § gamma: discount factor for future rewards
+                § max(Q(s', a')): estimated maximum future reward from next state s'
+    
+            ○ Gradually reduce ε to shift from exploration to exploitation over time
+        4. Evaluate the Agent
+            ○ Use the learned policy to interact with the environment
+            ○ Exploit learned Q-values to make decisions that maximize long-term rewards
+            ○ Track performance over multiple episodes by summing rewards
+    
+    Q-Learning with Keras Code:
+        
+        # import required libraries
+        import gym                        # used for creating the RL environment (e.g., CartPole)
+        import numpy as np               # used for numerical operations and array handling
+        from tensorflow.keras.models import Sequential
+        from tensorflow.keras.layers import Dense
+        from tensorflow.keras.optimizers import Adam
+        
+        # initialize the environment
+        env = gym.make('CartPole-v1')   # CartPole is a classic RL problem for testing balance control
+        
+        # set hyperparameters
+        alpha = 0.001                    # learning rate: controls how much we adjust the Q-values
+        gamma = 0.99                     # discount factor: how much future rewards are valued
+        epsilon = 1.0                    # initial exploration rate: high at first for exploration
+        epsilon_min = 0.01               # minimum exploration rate
+        epsilon_decay = 0.995            # decay rate for epsilon after each episode
+        episodes = 100                   # total number of training episodes
+        
+        # initialize the Q-table parameters
+        state_size = env.observation_space.shape[0]     # number of features in the environment state
+        action_size = env.action_space.n                # number of possible actions (e.g., left or right)
+        
+        # build the Q-network model
+        def build_q_network(state_size, action_size):
+            model = Sequential()
+            model.add(Dense(24, input_dim=state_size, activation='relu'))   # first hidden layer
+            model.add(Dense(24, activation='relu'))                         # second hidden layer
+            model.add(Dense(action_size, activation='linear'))              # output layer returns Q-values for each action
+            model.compile(loss='mse', optimizer=Adam(learning_rate=alpha))  # use MSE loss and Adam optimizer
+            return model
+        
+        # create the Q-network
+        q_network = build_q_network(state_size, action_size)
+        
+        # train the Q-network
+        for episode in range(episodes):
+            state, info = env.reset()
+            state = np.reshape(state, [1, state_size])
+            total_reward = 0
+        
+            for time in range(500):
+                # epsilon-greedy action selection
+                if np.random.rand() <= epsilon:
+                    action = np.random.choice(action_size)  # explore: random action
+                else:
+                    q_values = q_network.predict(state)
+                    action = np.argmax(q_values[0])         # exploit: pick best known action
+        
+                # take action in the environment
+                next_state, reward, done, trunc, _ = env.step(action)
+                next_state = np.reshape(next_state, [1, state_size])
+                total_reward += reward
+        
+                # negative reward if done (i.e., pole fell)
+                if done:
+                    reward = -10
+        
+                # Bellman equation update: Q(s,a) <- reward + gamma * max(Q(s'))
+                q_target = q_network.predict(state)
+                q_target[0][action] = reward + gamma * np.amax(q_network.predict(next_state)[0])
+        
+                # train the network on the updated target
+                q_network.fit(state, q_target, epochs=1, verbose=0)
+        
+                state = next_state
+                if done:
+                    print(f"Episode: {episode+1}/{episodes}, Score: {total_reward}")
+                    break
+        
+            # decay epsilon to reduce exploration over time
+            if epsilon > epsilon_min:
+                epsilon *= epsilon_decay
+        
+    - Deep Q-Networks (DQNs) with Keras
+        • DQNs?
+            ○ extension of Q-Learning that uses deep neural networks to approximate Q-values
+            ○ designed to handle large or continuous state spaces where Q-Tables become impractical
+            ○ made famous by DeepMind’s use in Atari games to reach human-level performance
+            ○ improves stability and efficiency with experience replay and target networks
+        
+        •  DQNs Key Concepts
+            § Q-Value function approximation
+                □ replaces Q-table with a neural network
+                □ approximates Q(s, a) where:
+                    ® s: state
+                    ® a: action
+            § Experience replay
+                □ stores agent experiences as (state, action, reward, next_state, done) in a replay buffer
+                □ during training, random minibatches from buffer are sampled
+                □ breaks correlations between consecutive experiences → improves learning stability
+            § Target network
+                □ maintains a separate neural network to generate stable Q-targets
+                □ updated less frequently than the main Q-network
+                □ prevents oscillations and divergence during training
+        
+        •  Steps to Implement DQNs with Keras
+        1. Initialize the environment and parameters
+            § define environment using OpenAI Gym (e.g., CartPole-v1)
+            § set hyperparameters:
+                □ learning rate (α)
+                □ discount factor (γ)
+                □ exploration rate (ε)
+                □ batch size
+            § initialize replay buffer to store experience tuples
+        2. Build the Q-Network and Target Network
+            § build two identical Keras models (same architecture)
+                □ input layer matches state size
+                □ 2 dense hidden layers with ReLU activation
+                □ output layer size = number of possible actions
+            § target network's weights are periodically copied from the main Q-network
+        3. Implement Experience Replay
+            § define a buffer with fixed max size (FIFO behavior)
+            § implement a remember() function to store experiences
+            § implement a replay() function:
+                □ randomly sample a batch
+                □ compute target Q-values using Bellman equation
+                □ update the Q-network weights via backpropagation
+        4. Train the Q-Network
+            § loop through episodes:
+                □ at each step, choose action using ε-greedy policy
+                    ® explore (random) with probability ε
+                    ® exploit (argmax Q-value) otherwise
+                □ store experience in replay buffer
+                □ call replay() to update the Q-network with a minibatch
+                □ periodically sync target network weights to match Q-network
+                □ decay ε over time to favor exploitation over exploration
+        5. Evaluate the Agent
+            § use the trained policy to act in the environment
+            § agent exploits learned Q-values to maximize reward
+            § performance is measured by cumulative reward across episodes
+            
+        
+        Deep Q-Network Code
+        # import necessary libraries
+        import gym
+        import numpy as np
+        from collections import deque
+        from tensorflow.keras.models import Sequential
+        from tensorflow.keras.layers import Dense
+        from tensorflow.keras.optimizers import Adam
+        
+        # initialize the environment
+        env = gym.make('CartPole-v1')
+        
+        # set hyperparameters
+        alpha = 0.001            # learning rate
+        gamma = 0.99             # discount factor
+        epsilon = 1.0            # initial exploration rate
+        epsilon_min = 0.01       # minimum exploration rate
+        epsilon_decay = 0.995    # decay rate for epsilon
+        episodes = 1000          # total episodes for training
+        batch_size = 64          # minibatch size for replay
+        memory_size = 2000       # max replay buffer size
+        
+        # initialize replay buffer
+        memory = deque(maxlen=memory_size)
+        
+        # get state and action sizes from the environment
+        state_size = env.observation_space.shape[0]
+        action_size = env.action_space.n
+        
+        # build a neural network to approximate the Q-function
+        def build_q_network(state_size, action_size):
+            model = Sequential()
+            model.add(Dense(24, input_dim=state_size, activation='relu'))
+            model.add(Dense(24, activation='relu'))
+            model.add(Dense(action_size, activation='linear'))
+            model.compile(loss='mse', optimizer=Adam(learning_rate=alpha))
+            return model
+        
+        # instantiate the primary and target networks
+        q_network = build_q_network(state_size, action_size)
+        target_network = build_q_network(state_size, action_size)
+        target_network.set_weights(q_network.get_weights())
+        
+        # store experience in the replay buffer
+        def remember(state, action, reward, next_state, done):
+            memory.append((state, action, reward, next_state, done))
+        
+        # train the Q-network using random samples from replay buffer
+        def replay(batch_size):
+            minibatch = np.random.choice(len(memory), batch_size, replace=False)
+            for index in minibatch:
+                state, action, reward, next_state, done = memory[index]
+                target = q_network.predict(state, verbose=0)
+                if done:
+                    target[0][action] = reward
+                else:
+                    t = target_network.predict(next_state, verbose=0)
+                    target[0][action] = reward + gamma * np.amax(t)
+                q_network.fit(state, target, epochs=1, verbose=0)
+        
+        # main training loop
+        for episode in range(episodes):
+            state, _ = env.reset()
+            state = np.reshape(state, [1, state_size])
+            total_reward = 0
+        
+            for time in range(500):  # max time steps per episode
+                # epsilon-greedy action selection
+                if np.random.rand() <= epsilon:
+                    action = np.random.choice(action_size)
+                else:
+                    q_values = q_network.predict(state, verbose=0)
+                    action = np.argmax(q_values[0])
+                
+                # execute the action
+                next_state, reward, done, _, _ = env.step(action)
+                next_state = np.reshape(next_state, [1, state_size])
+                total_reward += reward
+        
+                # penalty for ending the game early
+                if done:
+                    reward = -10
+                
+                # store the experience
+                remember(state, action, reward, next_state, done)
+                state = next_state
+        
+                if done:
+                    break
+        
+            # experience replay
+            if len(memory) > batch_size:
+                replay(batch_size)
+        
+            # decay epsilon
+            if epsilon > epsilon_min:
+                epsilon *= epsilon_decay
+        
+            # update target network every 10 episodes
+            if episode % 10 == 0:
+                target_network.set_weights(q_network.get_weights())
+        
+            print(f"Episode: {episode+1}/{episodes}, Score: {total_reward}")
+        
+        # evaluation loop after training
+        for episode in range(10):
+            state, _ = env.reset()
+            state = np.reshape(state, [1, state_size])
+            total_reward = 0
+        
+            for time in range(500):
+                env.render()  # visualize the environment
+                q_values = q_network.predict(state, verbose=0)
+                action = np.argmax(q_values[0])
+                next_state, reward, done, _, _ = env.step(action)
+                next_state = np.reshape(next_state, [1, state_size])
+                total_reward += reward
+                state = next_state
+                if done:
+                    print(f"Episode: {episode+1}, Score: {total_reward}")
+                    break
+        
+        env.close()
+        
+        
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+Course 4 - Introduction to Neural Networks and PyTorch
+
+-Tensors
+    - Building-block for neural networks in PyTorch
+    - NN is a mathematical function;
+        •  takes in one or more multiple inputs,
+        • processes it,
+        • And produces one or more outputs
+    - In PyTorch, NNs are composed of PyTorch Tensors
+        • A data structure that is a generalization for numbers and n-dimensional arrays in python.
+        • For the neural network, the input x is be a tensor, the output y will be a tensor, 
+        the network will be comprised of a set of parameters which are also tensors.
+    - In simplistic terms, a Tensor is a vector (1-D column array) or matrix (2-D array) consisting of only numbers.
+    - Definition: A generalization of vectors and matrices to any number of dimensions.
+    - Examples:
+        • Rank 0: Scalar (just a number, like 5)
+        • Rank 1: Vector
+        • Rank 2: Matrix
+        • Rank 3+: Tensor (e.g., a 3D image with RGB channels)
+    - Pytorch and NumPy arrays
+    
+
+
+
+
+    
+
+        
+        
+        
+    - 1-D Tensors
+        • Basics
+            § 0-D: 1, 2, 0.2, 10
+            § 1-D tensor is an array of numbers
+                □ A row in a data database
+                □ A vector
+        • Data types:
+        
+
+
+
+        • Creating a tensor:
+            Import torch
+            a=torch.tensor([7,4,3,2,6])
+        • Vectors
+            
+            
+            - 
+            
+            - Dot Product
+                - A single number that represents how similar the two vectors are
+                - 
+    
+                u=torch.tennsor(([1,2])
+                v=torch.tennsor([3,1])
+                Result=torch.dot(u,v)
+                Result : 5
+            - Broadcasting
+                - Adding a scalar value/constant to a tensor
+                u=torch.tensor([1,2,3,-1])
+                z=u+1
+                z:tensor
+                ([2,3,4,0])
+            - Some function examples
+                - 
+                - Plotting functions
+                    ® Requires converting the tensor back into a numpy array
+                    ® 
+                    
+    - 2-D Tensors
+        - A table/matrix of data
+        - 
+        - Matrix Multiplication
+            - 
+            
+            - 
+                
+                - Before multiplying two matrices together,  matrix A must have the same amount of rows as matrix B has columns.
+                - 
+    
+    - Differentiation in PyTorch
+        - 
+        
+    - Linear Regression in Pytorch
+        - 
+    
+    - Best Practices for Training Linear Regression Models in PyTorch
+        Training linear regression models in PyTorch provides a foundational understanding of machine learning and neural network concepts. 
+        Here are best practices for effectively training linear regression models to achieve optimal performance and accuracy. 
+        Set an Appropriate Learning Rate 
+        The learning rate is critical in determining how quickly or slowly a model learns. 
+        • Moderate Learning Rate: Start with a moderate learning rate (for example, 0.01) to balance convergence speed with stability. A learning rate that’s too high may lead to overshooting the optimal solution, whereas a very low rate can result in slow convergence. 
+        • Use Learning Rate Schedulers: Implement learning rate schedulers to adjust the rate dynamically during training, such as decreasing the rate over time for fine-tuning or using cyclic learning rates to overcome local minima. 
+        Data Standardization 
+        Standardizing input features to have zero mean and unit variance speeds up training and improves accuracy by preventing issues due to varying feature scales. 
+        • Scale Features: Use PyTorch’s `StandardScaler` or manually standardize features to ensure each feature contributes equally to the model, helping the optimizer converge more effectively. 
+        • Normalize Output (if necessary): If the output is also on a large scale, normalizing it may further improve model training and stability. 
+        
+        Implement Validation Sets 
+        Validation sets are essential for monitoring the model’s performance and detecting overfitting. 
+        • Train-Validation Split: Use a portion of the dataset as validation data, evaluating model performance on this set periodically during training. 
+        • Early Stopping: Implement early stopping based on validation loss to halt training when the model stops improving, which helps prevent overfitting. 
+        Gradient Clipping for Stability 
+        In datasets with high variance, gradients can sometimes grow too large, leading to instability. 
+        • Clip Gradients: Apply gradient clipping to limit the magnitude of gradients. PyTorch’s `torch.nn.utils.clip_grad_norm_` helps ensure gradients do not exceed a set threshold. 
+        • Avoiding Exploding Gradients: Gradient clipping prevents exploding gradients, which is particularly useful in models with larger datasets or complex feature interactions. 
+        Monitor Loss Function 
+        Monitoring the loss function during training helps diagnose issues and make necessary adjustments. 
+        • Loss Reduction Monitoring: Observe whether the loss steadily decreases during training. If the loss plateaus or increases, consider adjusting the learning rate or re-evaluating data preparation. 
+        • Track with Visualization Tools: Use visualization tools such as TensorBoard to track training and validation loss over epochs for a clear view of model performance. 
+        Conclusion 
+        Applying these best practices can improve the training process and performance of linear regression models in PyTorch. By carefully managing learning rates, standardizing data, using validation, and monitoring the training process, you’ll set a strong foundation for building more complex machine-learning models in PyTorch. 
+        
+    - Mini-Batch Gradient Descent
+        • A few samples are used at a time to minimize the cost function for each iteration (stochastic gradient descent)
+            - Iterations = training size / batch size
+    
+    - PyTorch Optimizer
+        # import libraries
+        import torch
+        from torch.utils.data import Dataset, DataLoader
+        import torch.nn as nn
+        import torch.optim as optim
+        
+        # define a custom dataset class for synthetic data
+        class Data(Dataset):
+            def __init__(self):
+                # create x values from -3 to 3 with step of 0.1, reshaped to a column vector
+                self.x = torch.arange(-3, 3, 0.1).view(-1, 1)
+                # define y values using a simple linear relation y = -3x + 1
+                self.y = -3 * self.x + 1
+                # store number of samples
+                self.len = self.x.shape[0]
+        
+            def __getitem__(self, index):
+                # retrieve single data point
+                return self.x[index], self.y[index]
+        
+            def __len__(self):
+                # return size of dataset
+                return self.len
+        
+        # instantiate dataset and data loader
+        dataset = Data()
+        trainloader = DataLoader(dataset=dataset, batch_size=1)
+        
+        # define a linear regression model using PyTorch's nn.Module
+        class LR(nn.Module):
+            def __init__(self, input_size, output_size):
+                # initialize the parent class
+                super(LR, self).__init__()
+                # define a single linear layer with given input and output size
+                self.linear = nn.Linear(input_size, output_size)
+        
+            def forward(self, x):
+                # forward pass through the linear layer
+                out = self.linear(x)
+                return out
+        
+        # create the model with 1 input and 1 output feature
+        model = LR(1, 1)
+        
+        # define loss function (mean squared error)
+        criterion = nn.MSELoss()
+        
+        # define optimizer (stochastic gradient descent with learning rate 0.01)
+        optimizer = optim.SGD(model.parameters(), lr=0.01)
+        
+        # training loop
+        for epoch in range(100):  # iterate over 100 epochs
+            for x, y in trainloader:  # iterate over data loader
+                yhat = model(x)  # forward pass: predict y from x
+                loss = criterion(yhat, y)  # compute mean squared error loss
+                optimizer.zero_grad()  # zero out previous gradients
+                loss.backward()  # compute gradients of loss w.r.t. model parameters
+                optimizer.step()  # update model parameters using gradients
+        
+                # behind the scenes, this step() does something like:
+                # w.data = w.data - lr * w.grad.data
+                # b.data = b.data - lr * b.grad.data
+        
+        # print final learned parameters
+        print("Learned weight:", model.linear.weight.item())
+        print("Learned bias:", model.linear.bias.item())
+        
+        
+        
+        
+        - PyTorch Examples:
+            - Simple Linear Regression
+                import torch
+                import torch.nn as nn
+                import matplotlib.pyplot as plt
+                
+                # generate toy data: y = 2x + 3
+                X = torch.linspace(0, 10, 100).view(-1, 1)
+                Y = 2 * X + 3 + torch.randn(X.size()) * 0.5  # add noise
+                
+                # define model
+                model = nn.Linear(1, 1)  # 1 input, 1 output
+                
+                # define loss and optimizer
+                criterion = nn.MSELoss()
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+                
+                # training loop
+                for epoch in range(100):
+                    y_pred = model(X)
+                    loss = criterion(y_pred, Y)
+                    
+                    optimizer.zero_grad()  # clear old gradients
+                    loss.backward()        # backpropagation
+                    optimizer.step()       # update weights
+                
+                    if epoch % 10 == 0:
+                        print(f'Epoch {epoch}: Loss = {loss.item():.4f}')
+                
+                # plot
+                plt.scatter(X.numpy(), Y.numpy(), label="Data")
+                plt.plot(X.numpy(), model(X).detach().numpy(), color='red', label="Fitted line")
+                plt.legend()
+                plt.show()
+            - Custom Dataset + Dataloader + Training Loop
+                import torch
+                from torch.utils.data import Dataset, DataLoader
+                import torch.nn as nn
+                
+                # custom dataset class
+                class LinearDataset(Dataset):
+                    def __init__(self):
+                        self.x = torch.linspace(-3, 3, 100).view(-1, 1)
+                        self.y = -3 * self.x + 1 + torch.randn_like(self.x) * 0.3
+                        self.len = self.x.shape[0]
+                
+                    def __getitem__(self, idx):
+                        return self.x[idx], self.y[idx]
+                
+                    def __len__(self):
+                        return self.len
+                
+                dataset = LinearDataset()
+                trainloader = DataLoader(dataset=dataset, batch_size=10, shuffle=True)
+                
+                # model
+                model = nn.Linear(1, 1)
+                criterion = nn.MSELoss()
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.05)
+                
+                # training loop
+                for epoch in range(50):
+                    for x_batch, y_batch in trainloader:
+                        y_pred = model(x_batch)
+                        loss = criterion(y_pred, y_batch)
+                        
+                        optimizer.zero_grad()
+                        loss.backward()
+                        optimizer.step()
+                
+                    if epoch % 10 == 0:
+                        print(f"Epoch {epoch}, Loss: {loss.item():.4f}")
+                
+            - Multiple Output Linear Regression
+                import torch
+                import torch.nn as nn
+                
+                # input: 3 features; output: 2 targets
+                X = torch.randn(100, 3)
+                true_weights = torch.tensor([[2.0, -1.0],
+                                             [0.5, 2.0],
+                                             [1.0, 0.3]])
+                true_bias = torch.tensor([0.5, -1.5])
+                Y = X @ true_weights + true_bias + torch.randn(100, 2) * 0.1
+                
+                # model
+                model = nn.Linear(3, 2)  # 3 inputs → 2 outputs
+                
+                # loss and optimizer
+                criterion = nn.MSELoss()
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+                
+                # training
+                for epoch in range(100):
+                    y_pred = model(X)
+                    loss = criterion(y_pred, Y)
+                
+                    optimizer.zero_grad()
+                    loss.backward()
+                    optimizer.step()
+                
+                    if epoch % 20 == 0:
+                        print(f"Epoch {epoch} | Loss: {loss.item():.4f}")
+            - Predicting Patient Readmission: Healthcare Binary classification
+                import torch
+                import torch.nn as nn
+                import torch.optim as optim
+                from sklearn.model_selection import train_test_split
+                from sklearn.preprocessing import StandardScaler
+                from sklearn.metrics import accuracy_score
+                import pandas as pd
+                import numpy as np
+                
+                # load sample healthcare dataset (replace with actual readmission dataset)
+                data = pd.read_csv('hospital_readmission.csv')
+                X = data.drop(columns=['readmitted'])  # features
+                y = data['readmitted']  # binary target: 0 = No, 1 = Yes
+                
+                # scale and split
+                scaler = StandardScaler()
+                X = scaler.fit_transform(X)
+                X_train, X_test, y_train, y_test = train_test_split(X, y.values, test_size=0.2)
+                
+                # convert to tensors
+                X_train = torch.tensor(X_train, dtype=torch.float32)
+                X_test = torch.tensor(X_test, dtype=torch.float32)
+                y_train = torch.tensor(y_train, dtype=torch.float32).view(-1, 1)
+                y_test = torch.tensor(y_test, dtype=torch.float32).view(-1, 1)
+                
+                # define model
+                class ReadmissionModel(nn.Module):
+                    def __init__(self, input_dim):
+                        super().__init__()
+                        self.net = nn.Sequential(
+                            nn.Linear(input_dim, 64),
+                            nn.ReLU(),
+                            nn.Linear(64, 1),
+                            nn.Sigmoid()
+                        )
+                
+                    def forward(self, x):
+                        return self.net(x)
+                
+                model = ReadmissionModel(X.shape[1])
+                criterion = nn.BCELoss()
+                optimizer = optim.Adam(model.parameters(), lr=0.001)
+                
+                # train loop
+                for epoch in range(100):
+                    model.train()
+                    optimizer.zero_grad()
+                    y_pred = model(X_train)
+                    loss = criterion(y_pred, y_train)
+                    loss.backward()
+                    optimizer.step()
+                
+                # evaluate
+                model.eval()
+                preds = model(X_test).detach().numpy()
+                preds = (preds > 0.5).astype(int)
+                print("Accuracy:", accuracy_score(y_test.numpy(), preds))
+                
+            - Forecasting Power Usage: Energy Regression
+                import torch
+                import torch.nn as nn
+                import torch.optim as optim
+                from sklearn.preprocessing import StandardScaler
+                from sklearn.model_selection import train_test_split
+                import pandas as pd
+                
+                # load dataset (assume power.csv has columns: ['hour', 'temperature', 'usage'])
+                df = pd.read_csv('power.csv')
+                X = df[['hour', 'temperature']]
+                y = df['usage']
+                
+                # preprocess
+                scaler = StandardScaler()
+                X = scaler.fit_transform(X)
+                y = y.values.reshape(-1, 1)
+                
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+                
+                X_train = torch.tensor(X_train, dtype=torch.float32)
+                X_test = torch.tensor(X_test, dtype=torch.float32)
+                y_train = torch.tensor(y_train, dtype=torch.float32)
+                y_test = torch.tensor(y_test, dtype=torch.float32)
+                
+                # define regression model
+                class EnergyModel(nn.Module):
+                    def __init__(self):
+                        super().__init__()
+                        self.layers = nn.Sequential(
+                            nn.Linear(2, 32),
+                            nn.ReLU(),
+                            nn.Linear(32, 16),
+                            nn.ReLU(),
+                            nn.Linear(16, 1)
+                        )
+                
+                    def forward(self, x):
+                        return self.layers(x)
+                
+                model = EnergyModel()
+                criterion = nn.MSELoss()
+                optimizer = optim.Adam(model.parameters(), lr=0.01)
+                
+                # train model
+                for epoch in range(200):
+                    model.train()
+                    optimizer.zero_grad()
+                    outputs = model(X_train)
+                    loss = criterion(outputs, y_train)
+                    loss.backward()
+                    optimizer.step()
+                
+                # evaluate
+                model.eval()
+                preds = model(X_test).detach().numpy()
+                mae = np.mean(np.abs(preds - y_test.numpy()))
+                print("MAE:", mae)
+
+    - Logistic Regression in PyTorch
+        - Nn.Sequential model
+        - Code examples:
+            - Predicting Diabetes with a modular neural network
+                import torch
+                import torch.nn as nn
+                from torch.utils.data import DataLoader, TensorDataset
+                import pandas as pd
+                from sklearn.model_selection import train_test_split
+                from sklearn.preprocessing import StandardScaler
+                
+                # load and scale data
+                df = pd.read_csv('diabetes.csv')
+                X = df.drop('Outcome', axis=1).values
+                y = df['Outcome'].values.reshape(-1, 1)
+                X = StandardScaler().fit_transform(X)
+                
+                # create tensor dataset
+                X_tensor = torch.tensor(X, dtype=torch.float32)
+                y_tensor = torch.tensor(y, dtype=torch.float32)
+                train_ds = TensorDataset(X_tensor, y_tensor)
+                train_dl = DataLoader(train_ds, batch_size=32, shuffle=True)
+                
+                # custom logistic regression with dropout
+                class DiabetesPredictor(nn.Module):
+                    def __init__(self, input_dim):
+                        super().__init__()
+                        self.net = nn.Sequential(
+                            nn.Linear(input_dim, 16),
+                            nn.ReLU(),
+                            nn.Dropout(0.3),
+                            nn.Linear(16, 1),
+                            nn.Sigmoid()
+                        )
+                        
+                    def forward(self, x):
+                        return self.net(x)
+                
+                model = DiabetesPredictor(X_tensor.shape[1])
+                loss_fn = nn.BCELoss()
+                optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+                
+                # training loop
+                for epoch in range(50):
+                    for xb, yb in train_dl:
+                        preds = model(xb)
+                        loss = loss_fn(preds, yb)
+                        optimizer.zero_grad()
+                        loss.backward()
+                        optimizer.step()
+                
+                # evaluation
+                with torch.no_grad():
+                    preds = (model(X_tensor) > 0.5).float()
+                    acc = (preds == y_tensor).float().mean()
+                    print(f"Accuracy: {acc:.2f}")
+            
+            - Predicting Equipment Failure with Feature Layers + BatchNorm
+                
+                import torch
+                import torch.nn as nn
+                
+                # generate fake sensor data
+                torch.manual_seed(0)
+                X = torch.randn(1000, 4)
+                y_prob = torch.sigmoid(X @ torch.tensor([[-1.0], [2.0], [1.5], [-0.5]]) + 0.3)
+                y = (y_prob > 0.5).float()
+                
+                # use DataLoader
+                ds = torch.utils.data.TensorDataset(X, y)
+                dl = torch.utils.data.DataLoader(ds, batch_size=32, shuffle=True)
+                
+                # custom model with batchnorm
+                class EquipmentFailureModel(nn.Module):
+                    def __init__(self):
+                        super().__init__()
+                        self.model = nn.Sequential(
+                            nn.Linear(4, 8),
+                            nn.BatchNorm1d(8),
+                            nn.ReLU(),
+                            nn.Linear(8, 1),
+                            nn.Sigmoid()
+                        )
+                    
+                    def forward(self, x):
+                        return self.model(x)
+                
+                model = EquipmentFailureModel()
+                loss_fn = nn.BCELoss()
+                optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+                
+                # train
+                for epoch in range(40):
+                    for xb, yb in dl:
+                        preds = model(xb)
+                        loss = loss_fn(preds, yb)
+                        optimizer.zero_grad()
+                        loss.backward()
+                        optimizer.step()
+                
+                # eval
+                with torch.no_grad():
+                    acc = ((model(X) > 0.5).float() == y).float().mean()
+                    print(f"Equipment Failure Accuracy: {acc:.2f}")
+                
+            - Predicting Load Default Risk with Configurable Layers:
+                import torch
+                import torch.nn as nn
+                
+                # simulate financial features
+                X = torch.cat([
+                    torch.normal(600, 50, size=(1000, 1)),    # credit score
+                    torch.normal(50000, 15000, size=(1000, 1)),  # income
+                    torch.normal(20000, 7000, size=(1000, 1))   # loan amount
+                ], dim=1)
+                
+                y = (((X[:, 0] < 640) & (X[:, 2] / X[:, 1] > 0.35)).float()).view(-1, 1)
+                
+                X = (X - X.mean(0)) / X.std(0)
+                ds = torch.utils.data.TensorDataset(X, y)
+                dl = torch.utils.data.DataLoader(ds, batch_size=64, shuffle=True)
+                
+                # dynamic logistic model with config option
+                class LoanRiskClassifier(nn.Module):
+                    def __init__(self, input_size, hidden_sizes=[12, 6], dropout_rate=0.2):
+                        super().__init__()
+                        layers = []
+                        prev = input_size
+                        for h in hidden_sizes:
+                            layers.extend([
+                                nn.Linear(prev, h),
+                                nn.ReLU(),
+                                nn.Dropout(dropout_rate)
+                            ])
+                            prev = h
+                        layers.append(nn.Linear(prev, 1))
+                        layers.append(nn.Sigmoid())
+                        self.model = nn.Sequential(*layers)
+                    
+                    def forward(self, x):
+                        return self.model(x)
+                
+                model = LoanRiskClassifier(input_size=3)
+                loss_fn = nn.BCELoss()
+                optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+                
+                # train
+                for epoch in range(100):
+                    for xb, yb in dl:
+                        preds = model(xb)
+                        loss = loss_fn(preds, yb)
+                        optimizer.zero_grad()
+                        loss.backward()
+                        optimizer.step()
+                
+                # evaluate
+                with torch.no_grad():
+                    acc = ((model(X) > 0.5).float() == y).float().mean()
+                    print(f"Loan Default Accuracy: {acc:.2f}")
+                
+        - Logistic Regression Cross Entropy Loss
+            - Use the sigmoid function rather than the standard cost function for standard classification
+            - Still outputs a value between 0 and 
+            - Code example: Loan Default Prediction
+                
+                class LoanDataset(Dataset):
+                    def __init__(self):
+                        self.x = torch.tensor([
+                            [40000, 650, 10000],
+                            [80000, 720, 25000],
+                            [30000, 580, 8000],
+                            [90000, 750, 30000],
+                            [25000, 500, 6000],
+                            [85000, 710, 27000]
+                        ]).float()
+                
+                        self.y = torch.tensor([[1], [0], [1], [0], [1], [0]]).float()
+                
+                        # feature scaling
+                        self.x = (self.x - self.x.mean(dim=0)) / self.x.std(dim=0)
+                        self.len = len(self.x)
+                
+                    def __getitem__(self, index):
+                        return self.x[index], self.y[index]
+                
+                    def __len__(self):
+                        return self.len
+                
+                model = LogisticRegressor(3)
+                data = LoanDataset()
+                loader = DataLoader(data, batch_size=1, shuffle=True)
+                
+                criterion = nn.BCELoss()
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.05)
+                
+                for epoch in range(80):
+                    for x, y in loader:
+                        yhat = model(x)
+                        loss = criterion(yhat, y)
+                
+                        optimizer.zero_grad()
+                        loss.backward()
+                        optimizer.step()
+                
+                    if epoch % 10 == 0:
+                        print(f"Epoch {epoch} - Loss: {loss.item():.4f}")
+            - Another example: predicting whether a building is energy efficient based on insulation thickness
+                import torch
+                from torch.utils.data import Dataset, DataLoader
+                import torch.nn as nn
+                
+                # -------- Step 1: Custom Dataset --------
+                class EnergyEfficiencyData(Dataset):
+                    """
+                    dataset representing buildings with insulation thickness
+                    target: 1 if insulation >= 5.5 cm (energy efficient), else 0
+                    """
+                    def __init__(self):
+                        # create input features from 1 cm to 10 cm insulation, in 0.1 cm steps
+                        self.x = torch.arange(1, 10.1, 0.1).view(-1, 1)  # shape: (91, 1)
+                        
+                        # label 1 if x >= 5.5 cm, otherwise 0
+                        self.y = torch.zeros_like(self.x)
+                        self.y[self.x >= 5.5] = 1
+                
+                        self.len = self.x.shape[0]  # total number of samples
+                
+                    def __getitem__(self, index):
+                        return self.x[index], self.y[index]
+                
+                    def __len__(self):
+                        return self.len
+                
+                # create dataset instance
+                dataset = EnergyEfficiencyData()
+                trainloader = DataLoader(dataset=dataset, batch_size=3)
+                
+                # -------- Step 2: Custom Logistic Regression Module --------
+                class LogisticRegressionModel(nn.Module):
+                    """
+                    logistic regression model using 1 input (insulation thickness)
+                    outputs a probability [0, 1] using sigmoid activation
+                    """
+                    def __init__(self, input_dim):
+                        super(LogisticRegressionModel, self).__init__()
+                        self.linear = nn.Linear(input_dim, 1)
+                
+                    def forward(self, x):
+                        return torch.sigmoid(self.linear(x))
+                
+                # create model instance
+                model = LogisticRegressionModel(1)
+                
+                # optional: manually set weights to avoid random convergence
+                with torch.no_grad():
+                    model.linear.weight[0] = torch.tensor([-1.0])
+                    model.linear.bias[0] = torch.tensor([10.0])
+                
+                # -------- Step 3: Define Loss Function and Optimizer --------
+                # binary classification: use BCELoss (binary cross entropy)
+                criterion = nn.BCELoss()
+                optimizer = torch.optim.SGD(model.parameters(), lr=0.02)
+                
+                # -------- Step 4: Training Loop --------
+                def train_model(epochs):
+                    for epoch in range(epochs):
+                        for x, y in trainloader:
+                            yhat = model(x)  # forward pass
+                            loss = criterion(yhat, y)  # compute loss
+                
+                            optimizer.zero_grad()  # clear previous gradients
+                            loss.backward()        # compute gradients
+                            optimizer.step()       # update weights
+                
+                        if epoch % 10 == 0:
+                            print(f"Epoch {epoch}: Loss = {loss.item():.4f}")
+                
+                # train the model
+                train_model(100)
+                
+                # -------- Step 5: Evaluate Accuracy --------
+                with torch.no_grad():
+                    yhat = model(dataset.x)
+                    predictions = yhat > 0.5
+                    accuracy = torch.mean((predictions == dataset.y).float())
+                    print(f"Final model accuracy: {accuracy.item()*100:.2f}%")
+            
+            - Deep Neural Network for Breast Cancer Classification
+                - Part 1: Load and Preprocess the Breast Cancer Data:
+                    # import libraries
+                    import torch
+                    import pandas as pd
+                    import numpy as np
+                    from sklearn.datasets import fetch_openml
+                    from sklearn.model_selection import train_test_split
+                    from sklearn.preprocessing import StandardScaler
+                    from torch.utils.data import TensorDataset, DataLoader
+                    
+                    # load the dataset from OpenML
+                    raw = fetch_openml(name="BreastCancer", version=1, as_frame=True)
+                    df = raw.frame
+                    
+                    # map labels to binary: malignant = 1, benign = 0
+                    df['Class'] = df['Class'].map({'malignant': 1, 'benign': 0})
+                    
+                    # drop any non-numeric columns (e.g., ID or missing entries)
+                    df = df.select_dtypes(include=np.number).dropna()
+                    
+                    # separate input features and target
+                    X = df.drop(columns=['Class'])
+                    y = df['Class']
+                    
+                    # split into training and testing (80% train, 20% test)
+                    X_train, X_test, y_train, y_test = train_test_split(
+                        X, y, test_size=0.2, stratify=y, random_state=42
+                    )
+                    
+                    # standardize the feature values to zero mean and unit variance
+                    scaler = StandardScaler()
+                    X_train_scaled = scaler.fit_transform(X_train)
+                    X_test_scaled = scaler.transform(X_test)
+                    
+                    # convert to PyTorch tensors
+                    X_train_tensor = torch.tensor(X_train_scaled, dtype=torch.float32)
+                    X_test_tensor = torch.tensor(X_test_scaled, dtype=torch.float32)
+                    y_train_tensor = torch.tensor(y_train.values, dtype=torch.long)
+                    y_test_tensor = torch.tensor(y_test.values, dtype=torch.long)
+                    
+                    # wrap data in TensorDatasets and DataLoaders
+                    train_dataset = TensorDataset(X_train_tensor, y_train_tensor)
+                    test_dataset = TensorDataset(X_test_tensor, y_test_tensor)
+                    
+                    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+                    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+                    
+                - Part 2: Define the Neural Network Model:
+                    import torch.nn as nn
+                    import torch.nn.functional as F
+                    
+                    # define a neural network for binary classification
+                    class ClassificationNet(nn.Module):
+                        def __init__(self, input_units=30, hidden_units=64, output_units=2):
+                            super(ClassificationNet, self).__init__()
+                            
+                            # first layer: input -> hidden
+                            self.fc1 = nn.Linear(input_units, hidden_units)
+                            
+                            # second layer: hidden -> output
+                            self.fc2 = nn.Linear(hidden_units, output_units)
+                        
+                        def forward(self, x):
+                            # apply ReLU activation to the hidden layer
+                            x = F.relu(self.fc1(x))
+                            
+                            # raw output logits for CrossEntropyLoss (no softmax here)
+                            x = self.fc2(x)
+                            return x
+                    
+                    # instantiate the model
+                    model = ClassificationNet(input_units=X_train.shape[1], hidden_units=64, output_units=2)
+                    
+                    # print architecture summary
+                    print(model)
+                    
+                - Part 3: Set Loss & Optimizer, Train, Evaluate, and plot data
+                    import torch.optim as optim
+                    import matplotlib.pyplot as plt
+                    
+                    # use cross-entropy loss for classification (expects raw logits)
+                    criterion = nn.CrossEntropyLoss()
+                    
+                    # use Adam optimizer (you can later try SGD, RMSprop, etc.)
+                    optimizer = optim.Adam(model.parameters(), lr=0.001)
+                    
+                    # set training parameters
+                    epochs = 10
+                    train_losses = []
+                    test_losses = []
+                    
+                    # training loop
+                    for epoch in range(epochs):
+                        model.train()  # set model to training mode
+                        running_loss = 0.0
+                        
+                        for X_batch, y_batch in train_loader:
+                            optimizer.zero_grad()              # clear old gradients
+                            outputs = model(X_batch)           # forward pass
+                            loss = criterion(outputs, y_batch) # compute loss
+                            loss.backward()                    # backpropagation
+                            optimizer.step()                   # update model parameters
+                            
+                            running_loss += loss.item()        # accumulate batch loss
+                        
+                        train_loss = running_loss / len(train_loader)
+                        train_losses.append(train_loss)
+                        
+                        # evaluation loop (test set)
+                        model.eval()  # set model to evaluation mode
+                        test_loss = 0.0
+                        with torch.no_grad():
+                            for X_batch, y_batch in test_loader:
+                                outputs = model(X_batch)
+                                loss = criterion(outputs, y_batch)
+                                test_loss += loss.item()
+                        
+                        test_loss /= len(test_loader)
+                        test_losses.append(test_loss)
+                    
+                        print(f"Epoch [{epoch+1}/{epochs}], Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}")
+                    
+                    
+                    
+                    plt.figure(figsize=(10, 6))
+                    plt.plot(range(1, epochs + 1), train_losses, label='Training Loss')
+                    plt.plot(range(1, epochs + 1), test_losses, label='Test Loss', linestyle='--')
+                    plt.xlabel('Epoch')
+                    plt.ylabel('Loss')
+                    plt.title('Training and Test Loss Curve')
+                    plt.legend()
+                    plt.grid(True)
+                    plt.show()
+                    
+                - Part 4: Compute Test Accuracy and Show Predictions
+                    import torch
+                    from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+                    
+                    # put model in evaluation mode
+                    model.eval()
+                    
+                    all_preds = []
+                    all_targets = []
+                    
+                    # disable gradient computation for evaluation
+                    with torch.no_grad():
+                        for X_batch, y_batch in test_loader:
+                            logits = model(X_batch)                    # raw outputs
+                            preds = torch.argmax(logits, dim=1)        # predicted class indices
+                            all_preds.append(preds.cpu())
+                            all_targets.append(y_batch.cpu())
+                    
+                    # concatenate all batches
+                    all_preds   = torch.cat(all_preds).numpy()
+                    all_targets = torch.cat(all_targets).numpy()
+                    
+                    # compute overall accuracy
+                    acc = accuracy_score(all_targets, all_preds)
+                    print(f"Test Accuracy: {acc * 100:.2f}%")
+                    
+                    # print a full classification report
+                    print("\nClassification Report:")
+                    print(classification_report(all_targets, all_preds, target_names=['Benign','Malignant']))
+                    
+                    # optionally, show confusion matrix
+                    cm = confusion_matrix(all_targets, all_preds)
+                    print("Confusion Matrix:")
+                    print(cm)
+                    
+                    
+-----------------------------------------------------------------------------------------
+
+Course 4: Deep Learning with PyTorch
+    - Gain advanced knowledge on deep learning using PyTorch.
+    - SoftMax regression
+        ○ Multiclass classification probnlems
+    - Develop and train shallow neural networks with various architectures
+    - Explore deep NNs including techniques like dropout, weight initialization, and batch normalization.
+    
+    
+    - Softmax Function
+        ○ Generalizes to multiple dimensions 1D and 2D vectors and tensors
+        ○ Argmax function
+            - Returns the index corresponding to the largest value in a sequence of numbers
+        ○ MNIST dataset: 
+            - Modified National Institute of Standards and Technology database
+                - One of the most well-known datasets in ML and computer vision
+                    ® Contains 70,000 grayscale images of handwritten digits 0 through 9
+                    ® 60,000 training images, 10,000 testing images
+                    ® Since each image is a greyscale image, the intensity values for each pixel can range from 0 to 255.
+                        ◊ Each image in the MNST dataset comprises of 784 pixels, so we would have 784 dimensions
+                - Perfect for:
+                    ® learning and benchmarking classification models
+                    ® Practicing neural networks and deep learning
+                    ® Testing different computer vision techniques
+            - Loading in PyTorch:
+
+                from torchvision import datasets, transforms
+                
+                # transform to normalize and convert to tensor
+                transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+                
+                # download the dataset
+                train_data = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+                test_data = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+                
+            - 
+            
+    - PyTorch Neural Networks 
+        ○ An NN is really just a function that can be used to approximate most functions using a set of parameters by performing matrix multiplication.
+        ○ Neural Networks with Multiple Dimensional Input
+            - In PyTorch, in order to classify multiple classes, you simply set the number of neurons output layer to match the number of classes in the output of the problem.
+            - For example, if the output of the problem consists of three classes, you should add three neurons to the output layer of your model.
+            - Each neuron has its own set of parameters and can be expressed as a row in a matrix.
+            - Each neuron has as many input parameters as neurons in the previous layer. 
+            - 
+        
+    
