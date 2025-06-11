@@ -35,4 +35,23 @@ def print_model_paramemters(model):
             print("The size of the bias is: ", model.state_dict()[ele].size())
         else:
             print("This size of the weights is:", model.state_dict()[ele].size())
-        
+
+# function to display data
+def show_data(data_sample):
+    plt.imshow((data_sample.numpy().reshape(28, 28), cmap='gray'))
+    plt.show()        
+
+
+### model
+# define neural network class
+class Net(nn.Module):
+    # Constructor
+    def __init__(self, D_in, H, D_out):
+        super(Net, self).__init__()
+        self.linear1 = nn.Linear(D_in, H)
+        self.linear2 = nn.Linear(H, D_out)
+
+    # Prediction
+    def forward(self, x):
+        x = torch.sigmoid(self.linear1(x))
+        x = self.linear2(x)
