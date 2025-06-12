@@ -2,8 +2,8 @@ Public Function GetMissingStoresList() As Collection
     Dim wsGen As Worksheet
     Dim lastRow As Long, i As Long
     Dim maxMonth As Long, maxYear As Long
-    Dim store As String, serial As String, ca As String
     Dim thisMonth As Long, thisYear As Long
+    Dim store As String, serial As String, ca As String
     Dim missingStores As New Collection
 
     Set wsGen = ThisWorkbook.Sheets("Billing Interval Generator")
@@ -25,11 +25,10 @@ Public Function GetMissingStoresList() As Collection
         thisYear = Val(wsGen.Cells(i, "D").Value)
 
         If thisMonth = maxMonth And thisYear = maxYear Then
-            If Trim(wsGen.Cells(i, "H").Value) = "FALSE" Then
+            If wsGen.Cells(i, "H").Value = False Then
                 store = Trim(wsGen.Cells(i, "B").Value)
                 serial = Trim(wsGen.Cells(i, "G").Value)
                 ca = "" ' contract account to be filled by user
-
                 If Len(store) > 0 And Len(serial) > 0 Then
                     missingStores.Add Array(ca, serial, store)
                 End If
