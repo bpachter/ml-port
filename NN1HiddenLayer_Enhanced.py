@@ -151,7 +151,6 @@ class Net(nn.Module):
     # print model parameters
     print_model_parameters(model)
     
-
     # set the learning rate annd optimizer
     learning_rate = 0.01
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
