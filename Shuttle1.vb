@@ -1,21 +1,24 @@
-Dim storeNum As Variant
-Dim sortedStores As New Collection
-Dim i As Long, j As Long
+Public Function GetMissingStoresList() As Collection
+    Dim wsGen As Worksheet
+    Dim lastRow As Long, i As Long
+    Dim store As String, serial As String, ca As String
+    Dim missingStores As New Collection
 
-' sort the store numbers
-For i = 1 To missingStores.Count
-    Dim inserted As Boolean: inserted = False
-    For j = 1 To sortedStores.Count
-        If CLng(missingStores(i)(2)) < CLng(sortedStores(j)(2)) Then
-            sortedStores.Add missingStores(i), , j
-            inserted = True
-            Exit For
+    Set wsGen = ThisWorkbook.Sheets("Billing Interval Generator")
+    lastRow = wsGen.Cells(wsGen.Rows.Count, "B").End(xlUp).Row
+
+    ' loop from row 4 down (header is in row 3)
+    For i = 4 To lastRow
+        If Trim(wsGen.Cells(i, "H").Value) = "FALSE" Then
+            store = Trim(wsGen.Cells(i, "B").Value)
+            serial = Trim(wsGen.Cells(i, "G").Value)
+            ca = ""  ' contract account will be filled in manually
+
+            If Len(store) > 0 And Len(serial) > 0 Then
+                missingStores.Add Array(ca, serial, store)
+            End If
         End If
-    Next j
-    If Not inserted Then sortedStores.Add missingStores(i)
-Next i
+    Next i
 
-' load into combo box
-For Each storeNum In sortedStores
-    Me.cboStoreNumber.AddItem storeNum(2) ' index 2 = Store Number
-Next storeNum
+    Set GetMissingStoresList = missingStores
+End Function
