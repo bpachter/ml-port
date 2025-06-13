@@ -2,12 +2,18 @@ Private Sub btnContinue_Click()
     ' force save the currently selected store's inputs
     If cmbStoreNumber.Value <> "" Then
         dictStoreData(cmbStoreNumber.Value) = Array( _
-            txtContractAccount.Text, txtSerialNumber.Text, txtBillingStart.Text, _
-            txtBillingEnd.Text, txtBilledkWh.Text, txtBilledDemand.Text, _
-            txtLoadFactor.Text, txtDemandKVar.Text)
+            txtContractAccount.Text, _
+            txtSerialNumber.Text, _
+            txtBillingStart.Text, _
+            txtBillingEnd.Text, _
+            txtBilledkWh.Text, _
+            txtBilledDemand.Text, _
+            txtLoadFactor.Text, _
+            txtDemandkVar.Text _
+        )
     End If
 
-    ' validate all stores have data
+    ' validate all stores have complete data
     Dim store As Variant
     For Each store In cmbStoreNumber.List
         If Not dictStoreData.exists(store) Then
@@ -25,7 +31,7 @@ Private Sub btnContinue_Click()
         Next i
     Next store
 
-    ' write data to ASR - Bill Input
+    ' write to ASR - Bill Input
     Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets("ASR - Bill Input")
     Dim startRow As Long: startRow = 6
     ws.Range("D6:L10000").ClearContents
@@ -33,7 +39,7 @@ Private Sub btnContinue_Click()
     Dim r As Long: r = startRow
     For Each store In cmbStoreNumber.List
         vals = dictStoreData(store)
-        ws.Cells(r, "D").Resize(1, 9).value = vals
+        ws.Cells(r, "D").Resize(1, 9).Value = vals
         r = r + 1
     Next store
 
