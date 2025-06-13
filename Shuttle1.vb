@@ -1,40 +1,49 @@
-Public Function GetMissingStoresList() As Collection
-    Dim wsGen As Worksheet
-    Dim lastRow As Long, i As Long
-    Dim maxMonth As Long, maxYear As Long
-    Dim thisMonth As Long, thisYear As Long
-    Dim store As String, serial As String, ca As String
-    Dim missingStores As New Collection
+Private Sub UserForm_Initialize()
+    Set dictStoreData = CreateObject("Scripting.Dictionary")
+    
+    Dim store As Variant
+    For Each store In pMissingStores
+        ' store = Array(ca, serial, storeNumber)
+        cmbStoreNumber.AddItem store(2) ' index 2 = Store Number
+    Next store
 
-    Set wsGen = ThisWorkbook.Sheets("Billing Interval Generator")
-    lastRow = wsGen.Cells(wsGen.Rows.Count, "B").End(xlUp).Row
+    ' sort the store numbers
+    Dim sortedStores As New Collection
+    Dim i As Long, j As Long
+    Dim inserted As Boolean
 
-    ' step 1: find the latest month and year combination
-    For i = 4 To lastRow
-        thisMonth = Val(wsGen.Cells(i, "C").Value)
-        thisYear = Val(wsGen.Cells(i, "D").Value)
-        If thisYear > maxYear Or (thisYear = maxYear And thisMonth > maxMonth) Then
-            maxMonth = thisMonth
-            maxYear = thisYear
-        End If
-    Next i
-
-    ' step 2: collect missing stores only for latest month/year
-    For i = 4 To lastRow
-        thisMonth = Val(wsGen.Cells(i, "C").Value)
-        thisYear = Val(wsGen.Cells(i, "D").Value)
-
-        If thisMonth = maxMonth And thisYear = maxYear Then
-            If wsGen.Cells(i, "H").Value = False Then
-                store = Trim(wsGen.Cells(i, "B").Value)
-                serial = Trim(wsGen.Cells(i, "G").Value)
-                ca = "" ' contract account to be filled by user
-                If Len(store) > 0 And Len(serial) > 0 Then
-                    missingStores.Add Array(ca, serial, store)
-                End If
+    For i = 1 To pMissingStores.Count
+        inserted = False
+        For j = 1 To sortedStores.Count
+            If CLng(pMissingStores(i)(2)) < CLng(sortedStores(j)(2)) Then
+                sortedStores.Add pMissingStores(i), , j
+                inserted = True
+                Exit For
             End If
-        End If
+        Next j
+        If Not inserted Then sortedStores.Add pMissingStores(i)
     Next i
 
-    Set GetMissingStoresList = missingStores
-End Function
+    ' clear existing combo
+    cmbStoreNumber.Clear
+
+    ' populate combo with sorted store numbers
+    For i = 1 To sortedStores.Count
+        cmbStoreNumber.AddItem sortedStores(i)(2)
+    Next i
+
+    isInitialized = True
+End Sub
+
+
+
+' step 3: in RunBillingProcess
+' step 3: identify missing stores and launch interactive form
+Set missingStores = GetMissingStoresList()
+If missingStores.Count > 0 Then
+    Set formMissingStoreInput.MissingStores = missingStores
+    formMissingStoreInput.Show vbModeless
+    Do While formMissingStoreInput.Visible
+        DoEvents
+    Loop
+End If
