@@ -23,6 +23,7 @@ Private Sub cmbStoreNumber_Change()
     If dictStoreData.exists(cmbStoreNumber.Value) Then
         Dim values As Variant
         values = dictStoreData(cmbStoreNumber.Value)
+
         txtContractAccount.Text = values(0)
         txtSerialNumber.Text = values(1)
         txtBillingStart.Text = values(2)
@@ -31,13 +32,17 @@ Private Sub cmbStoreNumber_Change()
         txtBilledDemand.Text = values(5)
         txtLoadFactor.Text = values(6)
         txtDemandKVar.Text = values(7)
+
     Else
         ' fill contract account and serial number from original list
         Dim i As Long
         For i = 1 To pMissingStores.Count
-            If pMissingStores(i)(2) = cmbStoreNumber.Value Then
-                txtContractAccount.Text = pMissingStores(i)(0)
-                txtSerialNumber.Text = pMissingStores(i)(1)
+            Dim storeData As Variant
+            storeData = pMissingStores(i)
+
+            If CStr(storeData(2)) = CStr(cmbStoreNumber.Value) Then
+                txtContractAccount.Text = CStr(storeData(0))
+                txtSerialNumber.Text = CStr(storeData(1))
                 Exit For
             End If
         Next i
