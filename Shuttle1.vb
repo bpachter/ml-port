@@ -1,31 +1,7 @@
-' add sorted store numbers to ComboBox
-For Each store In sortedStores
-    cmbStoreNumber.AddItem store(2)
-Next store
-
-' build full lookup from SerialTable worksheet
-Dim wsLookup As Worksheet
-Dim lastRow As Long
-Dim storeVal As String, caVal As String, serialVal As String
-
-Set wsLookup = ThisWorkbook.Sheets("Serial Number")
-lastRow = wsLookup.Cells(wsLookup.Rows.Count, "A").End(xlUp).Row
-
-For i = 2 To lastRow ' assuming row 1 has headers
-    caVal = Trim(wsLookup.Cells(i, 1).Text)
-    serialVal = Trim(wsLookup.Cells(i, 2).Text)
-    storeVal = Trim(wsLookup.Cells(i, 3).Text)
-
-    If Len(storeVal) > 0 Then
-        dictStoreLookup(storeVal) = Array(caVal, serialVal)
-        Debug.Print "[lookup initialized] store=" & storeVal & " CA=" & caVal & " SN=" & serialVal
-    End If
-Next i
-
 Private Sub btnContinue_Click()
-    ' save current store's values before validating
-    If cmbStoreNumber.Tag <> "" Then
-        dictStoreData(cmbStoreNumber.Tag) = Array( _
+    ' force save the currently selected store's inputs
+    If cmbStoreNumber.Value <> "" Then
+        dictStoreData(cmbStoreNumber.Value) = Array( _
             txtContractAccount.Text, txtSerialNumber.Text, txtBillingStart.Text, _
             txtBillingEnd.Text, txtBilledkWh.Text, txtBilledDemand.Text, _
             txtLoadFactor.Text, txtDemandKVar.Text)
@@ -57,7 +33,7 @@ Private Sub btnContinue_Click()
     Dim r As Long: r = startRow
     For Each store In cmbStoreNumber.List
         vals = dictStoreData(store)
-        ws.Cells(r, "D").Resize(1, 9).Value = vals
+        ws.Cells(r, "D").Resize(1, 9).value = vals
         r = r + 1
     Next store
 
