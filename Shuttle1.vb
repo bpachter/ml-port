@@ -1,37 +1,48 @@
-Public Sub PopulateForm()
-    Set dictStoreData = CreateObject("Scripting.Dictionary")
-    Set dictStoreLookup = CreateObject("Scripting.Dictionary")
+Private Sub cmbStoreNumber_Change()
+    If Not isInitialized Then Exit Sub
 
-    Dim sortedStores As New Collection
-    Dim i As Long, j As Long, inserted As Boolean
-    Dim store As Variant
+    ' save current store's values
+    If cmbStoreNumber.Tag <> "" Then
+        dictStoreData(cmbStoreNumber.Tag) = Array( _
+            txtContractAccount.Text, txtSerialNumber.Text, txtBillingStart.Text, _
+            txtBillingEnd.Text, txtBilledkWh.Text, txtBilledDemand.Text, _
+            txtLoadFactor.Text, txtDemandKVar.Text)
+    End If
 
-    ' sort pMissingStores by store number (element 3)
-    For i = 1 To pMissingStores.Count
-        inserted = False
-        For j = 1 To sortedStores.Count
-            If CLng(pMissingStores(i)(2)) < CLng(sortedStores(j)(2)) Then
-                sortedStores.Add pMissingStores(i), , j
-                inserted = True
+    ' clear inputs
+    txtContractAccount.Text = ""
+    txtSerialNumber.Text = ""
+    txtBillingStart.Text = ""
+    txtBillingEnd.Text = ""
+    txtBilledkWh.Text = ""
+    txtBilledDemand.Text = ""
+    txtLoadFactor.Text = ""
+    txtDemandKVar.Text = ""
+
+    ' preload any existing values
+    If dictStoreData.exists(cmbStoreNumber.Value) Then
+        Dim values As Variant
+        values = dictStoreData(cmbStoreNumber.Value)
+        txtContractAccount.Text = values(0)
+        txtSerialNumber.Text = values(1)
+        txtBillingStart.Text = values(2)
+        txtBillingEnd.Text = values(3)
+        txtBilledkWh.Text = values(4)
+        txtBilledDemand.Text = values(5)
+        txtLoadFactor.Text = values(6)
+        txtDemandKVar.Text = values(7)
+    Else
+        ' fill contract account and serial number from original list
+        Dim i As Long
+        For i = 1 To pMissingStores.Count
+            If pMissingStores(i)(2) = cmbStoreNumber.Value Then
+                txtContractAccount.Text = pMissingStores(i)(0)
+                txtSerialNumber.Text = pMissingStores(i)(1)
                 Exit For
             End If
-        Next j
-        If Not inserted Then sortedStores.Add pMissingStores(i)
-    Next i
+        Next i
+    End If
 
-    cmbStoreNumber.Clear
-    For Each store In sortedStores
-        cmbStoreNumber.AddItem store(2) ' index 2 = Store Number
-        dictStoreLookup(store(2)) = Array(store(0), store(1)) ' (ContractAccount, SerialNumber)
-    Next store
-
-    isInitialized = True
+    ' update tag for tracking
+    cmbStoreNumber.Tag = cmbStoreNumber.Value
 End Sub
-
-' addition
-If dictStoreLookup.exists(cmbStoreNumber.Value) Then
-    Dim caAndSerial As Variant
-    caAndSerial = dictStoreLookup(cmbStoreNumber.Value)
-    txtContractAccount.Text = caAndSerial(0)
-    txtSerialNumber.Text = caAndSerial(1)
-End If
