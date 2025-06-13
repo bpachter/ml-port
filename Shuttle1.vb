@@ -1,7 +1,7 @@
 Private Sub btnContinue_Click()
     ' force save the currently selected store's inputs
-    If cmbStoreNumber.Value <> "" Then
-        dictStoreData(CStr(cmbStoreNumber.Value)) = Array( _
+    If cmbStoreNumber.value <> "" Then
+        dictStoreData(CStr(cmbStoreNumber.value)) = Array( _
             txtContractAccount.Text, txtSerialNumber.Text, txtBillingStart.Text, _
             txtBillingEnd.Text, txtBilledkWh.Text, txtBilledDemand.Text, _
             txtLoadFactor.Text, txtDemandkVar.Text _
@@ -18,10 +18,11 @@ Private Sub btnContinue_Click()
             Exit Sub
         End If
 
-        Dim vals As Variant: vals = dictStoreData(key)
+        Dim vals As Variant
+        vals = dictStoreData(key)
         Dim i As Long
         For i = 0 To UBound(vals)
-            If Trim(vals(i)) = "" Then
+            If Trim(vals(i) & "") = "" Then
                 MsgBox "Incomplete entry for store " & store, vbExclamation
                 Exit Sub
             End If
@@ -35,8 +36,8 @@ Private Sub btnContinue_Click()
 
     Dim r As Long: r = startRow
     For Each store In cmbStoreNumber.List
-        Dim vals As Variant: vals = dictStoreData(CStr(store))
-        ws.Cells(r, "D").Resize(1, 9).Value = vals
+        vals = dictStoreData(CStr(store))
+        ws.Cells(r, "D").Resize(1, 9).value = vals
         r = r + 1
     Next store
 
