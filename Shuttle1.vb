@@ -36,7 +36,7 @@ End Sub
  Private Sub cmbStoreNumber_Change()
     If Not isInitialized Then Exit Sub
 
-    ' save current store's values
+    ' save current values before switching
     If cmbStoreNumber.Tag <> "" Then
         dictStoreData(cmbStoreNumber.Tag) = Array( _
             txtContractAccount.Text, txtSerialNumber.Text, txtBillingStart.Text, _
@@ -44,7 +44,7 @@ End Sub
             txtLoadFactor.Text, txtDemandKVar.Text)
     End If
 
-    ' clear all inputs
+    ' clear inputs
     txtContractAccount.Text = ""
     txtSerialNumber.Text = ""
     txtBillingStart.Text = ""
@@ -54,10 +54,10 @@ End Sub
     txtLoadFactor.Text = ""
     txtDemandKVar.Text = ""
 
-    ' preload if user already entered data
-    If dictStoreData.exists(cmbStoreNumber.value) Then
+    ' try to load previous entry
+    If dictStoreData.exists(cmbStoreNumber.Value) Then
         Dim values As Variant
-        values = dictStoreData(cmbStoreNumber.value)
+        values = dictStoreData(cmbStoreNumber.Value)
         txtContractAccount.Text = values(0)
         txtSerialNumber.Text = values(1)
         txtBillingStart.Text = values(2)
@@ -66,17 +66,26 @@ End Sub
         txtBilledDemand.Text = values(5)
         txtLoadFactor.Text = values(6)
         txtDemandKVar.Text = values(7)
+
+        Debug.Print "[loaded from dictStoreData] ContractAccount=" & txtContractAccount.Text
     Else
-        ' fallback: use static lookup from SerialTable
-        If dictStoreLookup.exists(CStr(cmbStoreNumber.value)) Then
+        ' fallback: load from SerialTable lookup dictionary
+        Dim storeKey As String
+        storeKey = CStr(cmbStoreNumber.Value)
+
+        Debug.Print "cmbStoreNumber.Value = [" & storeKey & "]"
+        If dictStoreLookup.exists(storeKey) Then
             Dim arr As Variant
-            arr = dictStoreLookup(CStr(cmbStoreNumber.value))
+            arr = dictStoreLookup(storeKey)
             txtContractAccount.Text = arr(0)
             txtSerialNumber.Text = arr(1)
+
+            Debug.Print "[lookup fallback] CA=" & arr(0) & " SN=" & arr(1)
+        Else
+            Debug.Print "[lookup FAILED] dictStoreLookup does not contain: " & storeKey
         End If
     End If
 
-    ' update tag for tracking
-    cmbStoreNumber.Tag = cmbStoreNumber.value
+    ' store current selection for later save
+    cmbStoreNumber.Tag = cmbStoreNumber.Value
 End Sub
-
