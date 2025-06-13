@@ -27,3 +27,11 @@ Public Sub PopulateForm()
 
     isInitialized = True
 End Sub
+
+' addition
+If dictStoreLookup.exists(cmbStoreNumber.Value) Then
+    Dim caAndSerial As Variant
+    caAndSerial = dictStoreLookup(cmbStoreNumber.Value)
+    txtContractAccount.Text = caAndSerial(0)
+    txtSerialNumber.Text = caAndSerial(1)
+End If
