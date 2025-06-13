@@ -9,7 +9,7 @@ Private Sub cmbStoreNumber_Change()
             txtLoadFactor.Text, txtDemandKVar.Text)
     End If
 
-    ' clear inputs
+    ' clear all inputs
     txtContractAccount.Text = ""
     txtSerialNumber.Text = ""
     txtBillingStart.Text = ""
@@ -32,17 +32,13 @@ Private Sub cmbStoreNumber_Change()
         txtBilledDemand.Text = values(5)
         txtLoadFactor.Text = values(6)
         txtDemandKVar.Text = values(7)
-
     Else
-        ' fill contract account and serial number from original list
+        ' fallback: fill contract account and serial number from original list
         Dim i As Long
         For i = 1 To pMissingStores.Count
-            Dim storeData As Variant
-            storeData = pMissingStores(i)
-
-            If CStr(storeData(2)) = CStr(cmbStoreNumber.Value) Then
-                txtContractAccount.Text = CStr(storeData(0))
-                txtSerialNumber.Text = CStr(storeData(1))
+            If CStr(pMissingStores(i)(2)) = CStr(cmbStoreNumber.Value) Then
+                txtContractAccount.Text = CStr(pMissingStores(i)(0))
+                txtSerialNumber.Text = CStr(pMissingStores(i)(1))
                 Exit For
             End If
         Next i
