@@ -1,17 +1,15 @@
 Private Sub UserForm_Initialize()
+    ' leave empty so nothing runs prematurely
+End Sub
+
+Public Sub PopulateForm()
     Set dictStoreData = CreateObject("Scripting.Dictionary")
     
-    Dim store As Variant
-    For Each store In pMissingStores
-        ' store = Array(ca, serial, storeNumber)
-        cmbStoreNumber.AddItem store(2) ' index 2 = Store Number
-    Next store
-
-    ' sort the store numbers
     Dim sortedStores As New Collection
-    Dim i As Long, j As Long
-    Dim inserted As Boolean
+    Dim i As Long, j As Long, inserted As Boolean
+    Dim store As Variant
 
+    ' sort pMissingStores by store number (element 3)
     For i = 1 To pMissingStores.Count
         inserted = False
         For j = 1 To sortedStores.Count
@@ -24,26 +22,8 @@ Private Sub UserForm_Initialize()
         If Not inserted Then sortedStores.Add pMissingStores(i)
     Next i
 
-    ' clear existing combo
     cmbStoreNumber.Clear
-
-    ' populate combo with sorted store numbers
-    For i = 1 To sortedStores.Count
-        cmbStoreNumber.AddItem sortedStores(i)(2)
-    Next i
-
-    isInitialized = True
+    For Each store In sortedStores
+        cmbStoreNumber.AddItem store(2)
+    Next store
 End Sub
-
-
-
-' step 3: in RunBillingProcess
-' step 3: identify missing stores and launch interactive form
-Set missingStores = GetMissingStoresList()
-If missingStores.Count > 0 Then
-    Set formMissingStoreInput.MissingStores = missingStores
-    formMissingStoreInput.Show vbModeless
-    Do While formMissingStoreInput.Visible
-        DoEvents
-    Loop
-End If
