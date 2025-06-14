@@ -1,15 +1,22 @@
-# Directive: Compare activation functions on breast cancer identification usaing sklean load_breast_cancer dataset
+# Directive: Binary classification on Breast Cancer dataset using a 1-hidden-layer neural network with varying activation functions.
 # Author: Benjamin Pachter
+# Framework: PyTorch + Scikit-Learn
+# Dataset: sklearn.datasets.load_breast_cancer (binary classification)
 # Initialized: 6/13/2025
-# Parameters:
-#   train_test_split: 20% test, 80% train
-#   900 epochs
-#   1 hidden layer, 30 hidden neurons
 #
-# Hypothesis:
-#    ReLU activation provides quicker and more efficient learning as an activation function because it eliminates the vanishing gradient problem. 
-# Conclusion:
-#    See breast_cancer_activations_output.png for results. ReLU minimized the cost function in fewer epochs than tanh and sigmoid activation functionsn.
+#   Parameters:
+#       Hidden layer: 30 neurons
+#       Epochs: 900
+#       Optimizer: Adam (lr = 0.01)
+#       Loss: Binary Cross Entropy
+#
+#   Hypothesis:
+#      Using the ReLU activation function in the hidden layer will result in faster convergence and lower training loss compared to Tanh and Sigmoid, due to its non-saturating gradient properties and computational efficiency.
+#   Conclusion:
+#      See breast_cancer_activations_output.png for results. ReLU achieved the fastest and most stable convergence, minimizing training loss earlier than both tanh and sigmoid.
+#      While final accuracy was similar across all functions as expected (~0.97–1.00), sigmoid showed slower and more unstable learning, affirming its known limitations (vanishing gradients).
+#      ReLU remains the preferred choice for hidden layers in feedforward networks on real data.
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
