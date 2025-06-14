@@ -1,8 +1,8 @@
-# Directive: Binary classification on Breast Cancer dataset using a 1-hidden-layer neural network with varying activation functions.
-# Author: Benjamin Pachter
-# Framework: PyTorch + Scikit-Learn
-# Dataset: sklearn.datasets.load_breast_cancer (binary classification)
-# Initialized: 6/13/2025
+#   Directive: Binary classification on Breast Cancer dataset using a 1-hidden-layer neural network with varying activation functions.
+#   Author: Benjamin Pachter
+#   Framework: PyTorch + Scikit-Learn
+#   Dataset: sklearn.datasets.load_breast_cancer (binary classification)
+#   Initialized: 6/13/2025
 #
 #   Parameters:
 #       Hidden layer: 30 neurons
