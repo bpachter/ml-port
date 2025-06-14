@@ -17,7 +17,7 @@ X_scaled = scaler.fit_transform(X)
 
 # split data into train and test sets
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled, y, test_size=0.15, random_state=3
+    X_scaled, y, test_size=0.20, random_state=3
 )
 
 # convert to torch tensors
@@ -43,7 +43,7 @@ class SimpleNet(nn.Module):
         return x
 
 # define a training loop
-def train_model(model, optimizer, criterion, X_train, y_train, X_test, y_test, epochs=100):
+def train_model(model, optimizer, criterion, X_train, y_train, X_test, y_test, epochs=300):
     train_loss_list = []
     test_acc_list = []
 
@@ -74,7 +74,7 @@ def train_model(model, optimizer, criterion, X_train, y_train, X_test, y_test, e
 # training settings
 input_dim = X_train.shape[1]
 hidden_dim = 30
-epochs = 200
+epochs = 900
 learning_rate = 0.01
 criterion = nn.BCELoss()
 
