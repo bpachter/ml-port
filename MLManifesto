@@ -2667,6 +2667,63 @@ Course 4: Deep Learning with PyTorch
             - For example, if the output of the problem consists of three classes, you should add three neurons to the output layer of your model.
             - Each neuron has its own set of parameters and can be expressed as a row in a matrix.
             - Each neuron has as many input parameters as neurons in the previous layer. 
-            - 
-        
+
+
+    - Deep Neural Networks in PyTorch
+        ○ Adding a hidden layer to a NN, we can generate a decision function to separate non-linearly-separable data.
+        ○ If we add more neurons to the hidden layer, we can obtain a more complex decision function,
+            - but this leads to overfitting
+        ○ By adding more hidden layers, we usually increase the performance of our model, while decreasing the risk of over-fitting.
+            - If a network has more than 1 hidden layer, it is called a deep neural network.
+        Deep Neural Networks in PyTorch
+        Conceptual Foundations
+            • Deep Neural Network (DNN): A neural network with more than one hidden layer.
+                ○ Enables modeling of highly complex functions.
+                ○ Increases expressive power and feature abstraction.
+            • Shallow vs. Deep:
+                ○ 1 hidden layer: capable of modeling non-linear decision boundaries.
+                    § 1 hidden layer (deep): allows for hierarchical representation learning.
+        Architectural Overview
+            • Layers & Dimensions:
+                ○ D_in: Number of input features (e.g., 784 for MNIST).
+                ○ H1, H2: Number of neurons in hidden layers 1 and 2.
+                ○ D_out: Number of output classes (e.g., 10 for digits 0–9).
+            • Example configuration:
+                ○ model = Net(784, 50, 50, 10):
+                    § 2 hidden layers with 50 neurons each.
+                    § Output layer with 10 neurons for classification.
+        PyTorch Implementation
+            • Using custom class (nn.Module):
+                ○ Define __init__ with nn.Linear(...) layers.
+                ○ Define forward() to apply Linear → Activation steps.
+            • Using nn.Sequential (concise):
+                ○ Stack layers directly in a list: Linear → Activation → Linear → ....
+            • Activation Functions:
+                ○ Easily swap: Sigmoid, Tanh, ReLU.
+                ○ Used after each hidden layer; not typically after the output in multiclass (use CrossEntropyLoss).
+        Training Pipeline
+            • Dataset:
+                ○ MNIST: images of digits (28×28 → flattened to 784 input features).
+                ○ Train/validation split with PyTorch DataLoader.
+            • Training Loop:
+                ○ Forward pass, compute loss, backpropagation, optimizer step.
+                ○ Calculate validation accuracy at each epoch.
+            • Loss Function:
+                ○ CrossEntropyLoss() for multi-class classification.
+            • Optimizer:
+                ○ SGD (Stochastic Gradient Descent) used with lr=0.01.
+        Performance Insights
+            • Deeper networks improve:
+                ○ Generalization (to a point).
+                ○ Capacity to capture complex patterns.
+            • Risk:
+                ○ More neurons in a single layer → overfitting.
+                ○ More layers (with proper regularization) → better generalization.
+            • Empirical Observation (from the lab):
+                ○ ReLU and Tanh outperform Sigmoid:
+                    § Lower training loss.
+                    § Higher and more stable validation accuracy.
+        Utility Functions & Debugging
+            • Use model.parameters() to inspect architecture and parameter counts.
+Store results (loss, accuracy) in dictionaries like useful_stuff for later analysis.
     
