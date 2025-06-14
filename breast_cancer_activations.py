@@ -1,3 +1,15 @@
+# Directive: Compare activation functions on breast cancer identification usaing sklean load_breast_cancer dataset
+# Author: Benjamin Pachter
+# Initialized: 6/13/2025
+# Parameters:
+#   train_test_split: 20% test, 80% train
+#   900 epochs
+#   1 hidden layer, 30 hidden neurons
+#
+# Hypothesis:
+#    ReLU activation provides quicker and more efficient learning as an activation function because it eliminates the vanishing gradient problem. 
+# Conclusion:
+#    See breast_cancer_activations_output.png for results. ReLU minimized the cost function in fewer epochs than tanh and sigmoid activation functionsn.
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -42,7 +54,7 @@ class SimpleNet(nn.Module):
         x = self.output_activation(x)
         return x
 
-# define a training loop
+# define a training loop: 300 epochs as default
 def train_model(model, optimizer, criterion, X_train, y_train, X_test, y_test, epochs=300):
     train_loss_list = []
     test_acc_list = []
